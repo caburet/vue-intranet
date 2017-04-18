@@ -123,8 +123,7 @@ const mutations = {
     }
   },
   [types.ADD_CASE] (state, data) {
-    state.device.isMobile = data === 'mobile'
-    state.device.isTablet = data === 'tablet'
+    state.case.client = data.tittle
   }
 }
 

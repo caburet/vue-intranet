@@ -11,10 +11,10 @@
             </div>
             <div class="control is-grouped">
               <p class="control is-expanded">
-                <input class="input" type="text" placeholder="Titulo">
+                <input class="input" type="text" v-model="tittle" placeholder="Titulo">
               </p>
               <p class="control is-expanded">
-                <input class="input" type="text" placeholder="¿Quien lo Solicita?">
+                <input class="input" type="text" v-model="who"  placeholder="¿Quien lo Solicita?">
               </p>
             </div>
           </div>
@@ -24,7 +24,7 @@
             </div>
             <div class="control">
               <div class="select is-fullwidth">
-                <select>
+                <select v-model="type" >
                   <option value="CONSULTORIA">Analítico</option>
                   <option value="SOPORTE">Básico</option>
                   <option value="DATOBOX">Datobox</option>
@@ -40,7 +40,7 @@
               <label class="label">Descripción</label>
             </div>
             <div class="control">
-              <textarea class="textarea" placeholder="Explica en que te podemos ayudar"></textarea>
+              <textarea v-model="comment" class="textarea" placeholder="Explica en que te podemos ayudar"></textarea>
             </div>
           </div>
           <div class="control is-horizontal">
@@ -61,8 +61,7 @@
 
 <script>
 import Chart from 'vue-bulma-chartjs'
-import store from './../../store'
-const { state } = store
+import { mapActions } from 'vuex'
 export default {
   components: {
     Chart
@@ -73,9 +72,17 @@ export default {
   },
   stated: {},
   methods: {
+    ...mapActions([
+      'addCase'
+    ]),
     onclickfn () {
-      caseslist: state.app.caseslist.caseslist
-      this.$router.push('/cases/basic')
+    let dic={}
+    dic.tittle=this.tittle
+    dic.who=this.who
+    dic.tittle=this.tittle
+    dic.type=this.type
+    this.addCase(dic)
+      //this.$router.push('/cases/basic')
     },
     onclickcan () {
       this.$router.push('/cases/basic')
