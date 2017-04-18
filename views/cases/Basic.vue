@@ -62,63 +62,15 @@
 </style>
 <script>
 import Chart from 'vue-bulma-chartjs'
-
+import store from './../../store'
+const { state } = store
 export default {
   components: {
     Chart
   },
   data () {
     return {
-      caseslist: [
-        { SerNr: '45210',
-          CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-          Asignee: 'AC',
-          ProblemDesc: 'Margen de Error',
-          CaseComment: 'None',
-          StatusName: 'Caso Asignado a Programacion',
-          TransDate: '31/03/2017',
-          TransTime: '11:21:04'
-        },
-        { SerNr: '45210',
-          CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-          Asignee: 'AC',
-          ProblemDesc: 'Margen de Error',
-          CaseComment: 'None',
-          StatusName: 'Caso Asignado a Programacion',
-          TransDate: '31/03/2017',
-          TransTime: '11:21:04'
-        },
-        { SerNr: '45210',
-          CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-          Asignee: 'AC',
-          ProblemDesc: 'Margen de Error',
-          CaseComment: 'None',
-          StatusName: 'Caso Asignado a Programacion',
-          TransDate: '31/03/2017',
-          TransTime: '11:21:04'
-        }
-
-      ]
-    }
-  },
-
-  computed: {
-    chartData () {
-      return {
-        labels: [
-          'Red',
-          'Blue',
-          'Yellow'
-        ],
-        datasets: [{
-          data: this.data,
-          backgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56'
-          ]
-        }]
-      }
+      caseslist: state.app.caseslist.caseslist
     }
   }
 

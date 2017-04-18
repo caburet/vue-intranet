@@ -48,8 +48,8 @@
               <label class="label"></label>
             </div>
             <div class="control">
-              <button class="button is-primary">Submit</button>
-              <button class="button is-link">Cancel</button>
+              <button class="button is-primary" v-on:click="onclickfn()">Submit</button>
+              <button class="button is-link" v-on:click="onclickcan()">Cancel</button>
             </div>
           </div>
         </div>
@@ -59,6 +59,30 @@
   </div>
 </template>
 
+<script>
+import Chart from 'vue-bulma-chartjs'
+import store from './../../store'
+const { state } = store
+export default {
+  components: {
+    Chart
+  },
+  data () {
+    return {
+    }
+  },
+  stated: {},
+  methods: {
+    onclickfn () {
+      caseslist: state.app.caseslist.caseslist
+      this.$router.push('/cases/basic')
+    },
+    onclickcan () {
+      this.$router.push('/cases/basic')
+    }
+  }
+}
+</script>
 <style lang="scss">
 .table-responsive {
   display: block;

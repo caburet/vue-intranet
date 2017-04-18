@@ -19,7 +19,6 @@
           </router-link>
         </article>
       </div>
-{{stated}}
     </div>
     <div class='tile is-ancestor'>
       <div class='tile is-parent'>
@@ -78,46 +77,18 @@
 
 <script>
 import Chart from 'vue-bulma-chartjs'
-
+import store from './../../store'
+const { state } = store
 export default {
   components: {
     Chart
   },
   data () {
     return {
-      caseslist: [
-        { SerNr: '45210',
-          CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-          Asignee: 'AC',
-          ProblemDesc: 'Margen de Error',
-          CaseComment: 'None',
-          StatusName: 'Caso Asignado a Programacion',
-          TransDate: '31/03/2017',
-          TransTime: '11:21:04'
-        },
-        { SerNr: '45210',
-          CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-          Asignee: 'AC',
-          ProblemDesc: 'Margen de Error',
-          CaseComment: 'None',
-          StatusName: 'Caso Asignado a Programacion',
-          TransDate: '31/03/2017',
-          TransTime: '11:21:04'
-        },
-        { SerNr: '45210',
-          CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-          Asignee: 'AC',
-          ProblemDesc: 'Margen de Error',
-          CaseComment: 'None',
-          StatusName: 'Caso Asignado a Programacion',
-          TransDate: '31/03/2017',
-          TransTime: '11:21:04'
-        }
-
-      ],
+      caseslist: state.app.dash.dashcaseslist,
       data: [300, 50, 100],
-      opencase: '10',
-      clientcase: '5'
+      opencase: state.app.dash.opencase,
+      clientcase: state.app.dash.clientcase
     }
   },
 
@@ -145,15 +116,6 @@ export default {
     onclickfn (index) {
       this.$router.push('/cases/basic')
     }
-  },
-  mounted () {
-    setInterval(() => {
-      // https://github.com/vuejs/vue/issues/2873
-      // Array.prototype.$set/$remove deprecated (use Vue.set or Array.prototype.splice instead)
-      this.data.forEach((item, i) => {
-        this.data.splice(i, 1, Math.ceil(Math.random() * 1000))
-      })
-    }, 10240)
   }
 }
 </script>

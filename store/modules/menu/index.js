@@ -14,6 +14,7 @@ const state = {
     {
       name: 'Dashboard',
       path: '/dashboard',
+      props: ['message'],
       meta: {
         icon: 'fa-tachometer',
         link: 'dashboard/index.vue'

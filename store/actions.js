@@ -16,3 +16,5 @@ export const switchEffect = ({ commit }, effectItem) => {
     commit(types.SWITCH_EFFECT, effectItem)
   }
 }
+
+export const addCase = ({ commit }, data) => commit(types.ADD_CASE, data)
