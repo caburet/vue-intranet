@@ -76,13 +76,12 @@ export default {
       'addCase'
     ]),
     onclickfn () {
-    let dic={}
-    dic.tittle=this.tittle
-    dic.who=this.who
-    dic.tittle=this.tittle
-    dic.type=this.type
-    this.addCase(dic)
-      //this.$router.push('/cases/basic')
+      let dic = {}
+      dic.tittle = this.tittle
+      dic.who = this.who
+      dic.tittle = this.tittle
+      dic.type = this.type
+      this.addCase(dic)
     },
     onclickcan () {
       this.$router.push('/cases/basic')
