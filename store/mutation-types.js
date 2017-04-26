@@ -7,3 +7,5 @@ export const EXPAND_MENU = 'EXPAND_MENU'
 export const SWITCH_EFFECT = 'SWITCH_EFFECT'
 
 export const ADD_CASE = 'ADD_CASE'
+
+export const INIT_DATA = 'INIT_DATA'

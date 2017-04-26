@@ -75,7 +75,7 @@ export default {
     ...mapActions([
       'addCase'
     ]),
-    onclickfn () {
+    onclickfnbkp () {
       let dic = {}
       dic.tittle = this.tittle
       dic.who = this.who
@@ -85,6 +85,44 @@ export default {
     },
     onclickcan () {
       this.$router.push('/cases/basic')
+    },
+    onclickfn () {
+      this.$http({
+        url: '/intranet/api/datafetch',
+        transformResponse: [(data) => {
+          return JSON.parse(data)
+        }],
+        params: {
+          parameters: {
+            Normalized: false,
+            NumberOfDays: false,
+            DataPeriod: false,
+            Elements: []
+          }
+        }
+      }).then((response) => {
+        console.log(response)
+        console.log(response.data)
+        console.log(response.data.records)
+        var arrayLength = response.data.records.length
+        for (var i = 0; i < arrayLength; i++) {
+          let obj = JSON.parse(response.data.records[i])
+          console.log('####################################')
+          console.log(obj)
+          let dic = {}
+          dic.SerNr = obj.SerNr
+          dic.CaseTypeComment = obj.CaseTypeComment
+          dic.Asignee = obj.Asignee
+          dic.ProblemDesc = obj.ProblemDesc
+          dic.CaseComment = obj.CaseComment
+          dic.StatusName = obj.StatusName
+          dic.TransDate = obj.TransDate
+          dic.TransTime = obj.TransTime
+          this.addCase(dic)
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
     }
   }
 }

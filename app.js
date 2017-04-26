@@ -8,8 +8,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import * as filters from './filters'
-import { TOGGLE_SIDEBAR } from 'vuex-store/mutation-types'
-
+import { TOGGLE_SIDEBAR, INIT_DATA } from 'vuex-store/mutation-types'
 Vue.router = router
 Vue.use(VueAxios, axios)
 Vue.use(VueAuth, {
@@ -27,7 +26,6 @@ Vue.use(VueAuth, {
   loginData: { url: 'http://localhost:6789/login', fetchUser: false },
   refreshData: { enabled: false }
 })
-
 Vue.use(NProgress)
 
 // Enable devtools
@@ -54,7 +52,54 @@ const app = new Vue({
   router,
   store,
   nprogress,
+  created () {
+    this.$nextTick(function () {
+       // initialize store data structure by submitting action.
+      this.$http({
+        url: '/intranet/api/datafetch',
+        transformResponse: [(data) => {
+          return JSON.parse(data)
+        }],
+        params: {
+          parameters: {
+            Normalized: false,
+            NumberOfDays: false,
+            DataPeriod: false,
+            Elements: []
+          }
+        }
+      }).then((response) => {
+        console.log(response)
+        console.log(response.data)
+        console.log(response.data.records)
+        var arrayLength = response.data.records.length
+        var data= []
+        for (var i = 0; i < arrayLength; i++) {
+          let obj = JSON.parse(response.data.records[i])
+          console.log('####################################')
+          console.log(obj)
+          let dic = {}
+          dic.SerNr = obj.SerNr
+          dic.CaseTypeComment = obj.CaseTypeComment
+          dic.Asignee = obj.Asignee
+          dic.ProblemDesc = obj.ProblemDesc
+          dic.CaseComment = obj.CaseComment
+          dic.StatusName = obj.StatusName
+          dic.TransDate = obj.TransDate
+          dic.TransTime = obj.TransTime
+          data.push(dic)
+          console.log(store)
+          console.log(this)
+        }
+
+        store.commit(INIT_DATA, data)
+      }).catch((error) => {
+        console.log(error)
+      })
+    })
+  },
   ...App
+
 })
 
 export { app, router, store }

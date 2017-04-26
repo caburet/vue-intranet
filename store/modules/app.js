@@ -123,19 +123,24 @@ const mutations = {
     }
   },
   [types.ADD_CASE] (state, data) {
+    console.log(data)
     state.dash.dashcaseslist.push(
-      { SerNr: 'Nuevo',
-        CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-        Asignee: 'AC',
-        ProblemDesc: 'Margen de Error',
-        CaseComment: data.comment,
-        StatusName: 'Caso Asignado a Programacion',
-        TransDate: '31/03/2017',
-        TransTime: '11:21:04'
+      { SerNr: 'dataSerNr',
+        CaseTypeComment: data.CaseTypeComment,
+        Asignee: data.Asignee,
+        ProblemDesc: data.ProblemDesc,
+        CaseComment: data.CaseComment,
+        StatusName: data.StatusName,
+        TransDate: data.TransDate,
+        TransTime: data.SeTransTimerNr
       }
 
     )
     state.case.client = data.tittle
+  },
+  [types.INIT_DATA] (state, data) {
+    console.log('INIT DATA !!')
+    console.log(data)
   }
 }
 

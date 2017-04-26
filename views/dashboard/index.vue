@@ -51,7 +51,7 @@
               </tr>
             </tfoot>
             <tbody>
-            <tr v-for='item in this.caseslist' v-on:click="onclickfn(1)">
+            <tr v-for='item in this.caseslist' v-on:click="loadData()">
 
                 <td>{{item.SerNr}}</td>
                 <td>{{item.CaseTypeComment}}</td>
@@ -115,6 +115,30 @@ export default {
   methods: {
     onclickfn (index) {
       this.$router.push('/cases/basic')
+    },
+    loadData () {
+      this.$http({
+        url: 'http://httpbin.org/ip',
+        transformResponse: [(data) => {
+          return data
+        }],
+        params: {
+          parameters: {
+            Normalized: false,
+            NumberOfDays: false,
+            DataPeriod: false,
+            Elements: [false]
+          }
+        }
+      }).then((response) => {
+        let dates = response.data.Dates
+        let price = response.data.Elements[0].DataSeries.close.values
+        this.data.push(...price)
+        this.labels.push(...dates)
+        this.isloading = false
+      }).catch((error) => {
+        console.log(error)
+      })
     }
   }
 }

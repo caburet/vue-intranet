@@ -65,6 +65,28 @@ export default {
       subject: state.app.case.subject,
       problemdesc: state.app.case.problemdesc
     }
+  },
+  methods: {
+    loadData () {
+      this.$http({
+        url: 'localhost:8080/intranet/cases',
+        transformResponse: [(data) => {
+          return JSON.parse(data)
+        }],
+        params: {
+          parameters: {
+            Normalized: false,
+            NumberOfDays: false,
+            DataPeriod: false,
+            Elements: []
+          }
+        }
+      }).then((response) => {
+        console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
   }
 }
 </script>
