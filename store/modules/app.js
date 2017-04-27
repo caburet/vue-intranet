@@ -3,66 +3,10 @@ import * as types from '../mutation-types'
 const state = {
   caseslist: {
     caseslist: [
-      { SerNr: '45210',
-        CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-        Asignee: 'AC',
-        ProblemDesc: 'Margen de Error',
-        CaseComment: 'None',
-        StatusName: 'Caso Asignado a Programacion',
-        TransDate: '31/03/2017',
-        TransTime: '11:21:04'
-      },
-      { SerNr: '45210',
-        CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-        Asignee: 'AC',
-        ProblemDesc: 'Margen de Error',
-        CaseComment: 'None',
-        StatusName: 'Caso Asignado a Programacion',
-        TransDate: '31/03/2017',
-        TransTime: '11:21:04'
-      },
-      { SerNr: '45210',
-        CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-        Asignee: 'AC',
-        ProblemDesc: 'Margen de Error',
-        CaseComment: 'None',
-        StatusName: 'Caso Asignado a Programacion',
-        TransDate: '31/03/2017',
-        TransTime: '11:21:04'
-      }
-
     ]
   },
   dash: {
     dashcaseslist: [
-      { SerNr: '45210',
-        CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-        Asignee: 'AC',
-        ProblemDesc: 'Margen de Error',
-        CaseComment: 'None',
-        StatusName: 'Caso Asignado a Programacion',
-        TransDate: '31/03/2017',
-        TransTime: '11:21:04'
-      },
-      { SerNr: '45210',
-        CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-        Asignee: 'AC',
-        ProblemDesc: 'Margen de Error',
-        CaseComment: 'None',
-        StatusName: 'Caso Asignado a Programacion',
-        TransDate: '31/03/2017',
-        TransTime: '11:21:04'
-      },
-      { SerNr: '45210',
-        CaseTypeComment: 'Producto / Funcionalidades Nuevas / Oppen 2',
-        Asignee: 'AC',
-        ProblemDesc: 'Margen de Error',
-        CaseComment: 'None',
-        StatusName: 'Caso Asignado a Programacion',
-        TransDate: '31/03/2017',
-        TransTime: '11:21:04'
-      }
-
     ],
     opencase: '10',
     clientcase: '5'
@@ -139,6 +83,38 @@ const mutations = {
     state.case.client = data.tittle
   },
   [types.INIT_DATA] (state, data) {
+    var casedata = ''
+    for (casedata in data) {
+      console.log(data[casedata])
+      var CaseComment = data[casedata].CaseComment
+      if (CaseComment) {
+        if (CaseComment.length > 40) {
+          CaseComment = CaseComment.substring(0, 40) + '...'
+        }
+      }
+      if (casedata < 5) {
+        state.dash.dashcaseslist.push(
+          { SerNr: data[casedata].SerNr,
+            CaseTypeComment: data[casedata].CaseTypeComment,
+            Asignee: data[casedata].Asignee,
+            ProblemDesc: data[casedata].ProblemDesc,
+            CaseComment: CaseComment,
+            StatusName: data[casedata].StatusName,
+            TransDate: data[casedata].TransDate.split('T')[0],
+            TransTime: data[casedata].TransTime
+          })
+      }
+      state.caseslist.caseslist.push(
+        { SerNr: data[casedata].SerNr,
+          CaseTypeComment: data[casedata].CaseTypeComment,
+          Asignee: data[casedata].Asignee,
+          ProblemDesc: data[casedata].ProblemDesc,
+          CaseComment: CaseComment,
+          StatusName: data[casedata].StatusName,
+          TransDate: data[casedata].TransDate.split('T')[0],
+          TransTime: data[casedata].TransTime
+        })
+    }
     console.log('INIT DATA !!')
     console.log(data)
   }

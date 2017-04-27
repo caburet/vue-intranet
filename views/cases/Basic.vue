@@ -36,7 +36,7 @@
                 <td>{{item.CaseTypeComment}}</td>
                 <td>{{item.Asignee}}</td>
                 <td>{{item.ProblemDesc}}</td>
-                <td>{{item.CaseComment}}</td>
+                <td width="30%">{{item.CaseComment}}</td>
                 <td>{{item.StatusName}}</td>
                 <td>{{item.TransDate}}</td>
                 <td>{{item.TransTime}}</td>

@@ -73,7 +73,7 @@ const app = new Vue({
         console.log(response.data)
         console.log(response.data.records)
         var arrayLength = response.data.records.length
-        var data= []
+        var data = []
         for (var i = 0; i < arrayLength; i++) {
           let obj = JSON.parse(response.data.records[i])
           console.log('####################################')

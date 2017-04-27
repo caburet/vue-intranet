@@ -69,7 +69,7 @@ export default {
   methods: {
     loadData () {
       this.$http({
-        url: 'localhost:8080/intranet/cases',
+        url: '/intranet/cases',
         transformResponse: [(data) => {
           return JSON.parse(data)
         }],
