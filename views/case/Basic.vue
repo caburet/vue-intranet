@@ -66,23 +66,22 @@ export default {
       problemdesc: state.app.case.problemdesc
     }
   },
+  created: function () {
+    this.loadData()
+  },
   methods: {
     loadData () {
       this.$http({
-        url: '/intranet/cases',
+        url: 'http://localhost:8080/intranet/api/getcase/' + this.$route.params.id + '/',
         transformResponse: [(data) => {
           return JSON.parse(data)
         }],
         params: {
-          parameters: {
-            Normalized: false,
-            NumberOfDays: false,
-            DataPeriod: false,
-            Elements: []
-          }
         }
       }).then((response) => {
-        console.log(response)
+        console.log('ARRANCA LOS CONSOLE')
+        console.log(response.data)
+        console.log(JSON.parse(response.data.case[0]))
       }).catch((error) => {
         console.log(error)
       })

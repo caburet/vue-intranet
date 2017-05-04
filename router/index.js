@@ -15,11 +15,6 @@ export default new Router({
       component: require('../views/dashboard/')
     },
     {
-      name: 'case',
-      path: '/user/:id',
-      component: {template: '<div>{{ $route.params.id}}</div>'}
-    },
-    {
       name: 'Login',
       path: '/login',
       component: require('../views/auth/Login')

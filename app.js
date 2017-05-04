@@ -56,7 +56,7 @@ const app = new Vue({
     this.$nextTick(function () {
        // initialize store data structure by submitting action.
       this.$http({
-        url: '/intranet/api/datafetch',
+        url: 'http://localhost:8080/intranet/api/datafetch',
         transformResponse: [(data) => {
           return JSON.parse(data)
         }],
@@ -70,14 +70,10 @@ const app = new Vue({
         }
       }).then((response) => {
         console.log(response)
-        console.log(response.data)
-        console.log(response.data.records)
         var arrayLength = response.data.records.length
         var data = []
         for (var i = 0; i < arrayLength; i++) {
           let obj = JSON.parse(response.data.records[i])
-          console.log('####################################')
-          console.log(obj)
           let dic = {}
           dic.SerNr = obj.SerNr
           dic.CaseTypeComment = obj.CaseTypeComment
@@ -88,10 +84,7 @@ const app = new Vue({
           dic.TransDate = obj.TransDate
           dic.TransTime = obj.TransTime
           data.push(dic)
-          console.log(store)
-          console.log(this)
         }
-
         store.commit(INIT_DATA, data)
       }).catch((error) => {
         console.log(error)

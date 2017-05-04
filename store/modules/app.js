@@ -9,7 +9,7 @@ const state = {
     dashcaseslist: [
     ],
     opencase: '10',
-    clientcase: '5'
+    clientcase: '3'
   },
   case: {
     client: 'Open Technologies SA',
@@ -83,6 +83,9 @@ const mutations = {
     state.case.client = data.tittle
   },
   [types.INIT_DATA] (state, data) {
+    console.log(state.dash.clientcase)
+    state.dash.clientcase = 0
+    state.dash.opencase = data.length
     var casedata = ''
     for (casedata in data) {
       console.log(data[casedata])
@@ -114,6 +117,10 @@ const mutations = {
           TransDate: data[casedata].TransDate.split('T')[0],
           TransTime: data[casedata].TransTime
         })
+      if (data[casedata].Asignee === 'CLIENTE') {
+        state.dash.clientcase += 1
+      }
+      console.log(state.dash.clientcase)
     }
     console.log('INIT DATA !!')
     console.log(data)
