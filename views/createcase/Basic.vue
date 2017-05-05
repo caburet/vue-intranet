@@ -88,7 +88,7 @@ export default {
     },
     onclickfn () {
       this.$http({
-        url: 'http://localhost:8080/intranet/api/datafetch',
+        url: 'http://joel.openorange.com:8080/intranet/api/datafetch',
         transformResponse: [(data) => {
           return JSON.parse(data)
         }],

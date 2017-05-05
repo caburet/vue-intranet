@@ -72,7 +72,7 @@ export default {
   methods: {
     loadData () {
       this.$http({
-        url: 'http://localhost:8080/intranet/api/getcase/' + this.$route.params.id + '/',
+        url: 'http://joel.openorange.com:8080/intranet/api/getcase/' + this.$route.params.id + '/',
         transformResponse: [(data) => {
           return JSON.parse(data)
         }],
