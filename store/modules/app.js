@@ -126,6 +126,7 @@ const mutations = {
     console.log(data)
   },
   [types.REFRESH_CASE] (state, casedata, rowdata) {
+    console.log('adentro del refreshcase')
     console.log(state.dash.clientcase)
     console.log(casedata)
     console.log(rowdata)

@@ -84,7 +84,8 @@ export default {
         console.log('ARRANCA LOS CONSOLE')
         console.log(response.data)
         console.log(JSON.parse(response.data.case[0]))
-        store.commit(REFRESH_CASE, JSON.parse(response.data.case[0]), JSON.parse(response.data.records))
+        store.commit(REFRESH_CASE, JSON.parse(response.data.case[0]), response.data.records)
+        console.log('TERMINA LOS CONSOLE')
       }).catch((error) => {
         console.log(error)
       })
