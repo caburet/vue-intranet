@@ -51,16 +51,16 @@
               </tr>
             </tfoot>
             <tbody>
-            <tr v-for='item in this.caseslist' v-on:click="clickcase("12345")>
+            <tr v-for='item in this.caseslist'>
 
-                <td>  <router-link to="/case/basic/123">{{item.SerNr}}</router-link></td>
-                <td>{{item.CaseTypeComment}}</td>
-                <td>{{item.Asignee}}</td>
-                <td>{{item.ProblemDesc}}</td>
-                <td>{{item.CaseComment}}</td>
-                <td>{{item.StatusName}}</td>
-                <td>{{item.TransDate}}</td>
-                <td>{{item.TransTime}}</td>
+                <td>  <router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.SerNr}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.CaseTypeComment}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.Asignee}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.ProblemDesc}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.CaseComment}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.StatusName}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.TransDate}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.TransTime}}</router-link></td>
 
               </tr>
             </tbody>
@@ -114,7 +114,11 @@ export default {
   stated: {},
   methods: {
     clickcase (index) {
-      this.$router.push('/cases/basic/' + index)
+      console.log('VAAAA')
+      let a = 123
+      let url = 'cases/basic/' + a
+      console.log(url)
+      this.$router.push('/cases/basic/1234')
     }
   }
 }
