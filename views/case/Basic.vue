@@ -52,6 +52,7 @@
 <script>
 import Chart from 'vue-bulma-chartjs'
 import store from './../../store'
+import { REFRESH_CASE } from 'vuex-store/mutation-types'
 const { state } = store
 export default {
   components: {
@@ -71,6 +72,7 @@ export default {
   },
   methods: {
     loadData () {
+      console.log(this.$route.params)
       this.$http({
         url: 'http://joel.openorange.com:8080/intranet/api/getcase/' + this.$route.params.id + '/',
         transformResponse: [(data) => {
@@ -82,6 +84,7 @@ export default {
         console.log('ARRANCA LOS CONSOLE')
         console.log(response.data)
         console.log(JSON.parse(response.data.case[0]))
+        store.commit(REFRESH_CASE, JSON.parse(response.data.case[0]), JSON.parse(response.data.records))
       }).catch((error) => {
         console.log(error)
       })

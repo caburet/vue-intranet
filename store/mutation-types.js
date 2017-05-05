@@ -9,3 +9,5 @@ export const SWITCH_EFFECT = 'SWITCH_EFFECT'
 export const ADD_CASE = 'ADD_CASE'
 
 export const INIT_DATA = 'INIT_DATA'
+
+export const REFRESH_CASE = 'REFRESH_CASE'
