@@ -125,11 +125,15 @@ const mutations = {
     console.log('INIT DATA !!')
     console.log(data)
   },
-  [types.REFRESH_CASE] (state, casedata, rowdata) {
+  [types.REFRESH_CASE] (state, casedata) {
     console.log('adentro del refreshcase')
-    console.log(state.dash.clientcase)
-    console.log(casedata)
-    console.log(rowdata)
+    console.log(JSON.parse(casedata.data.case))
+    let casedataparse = JSON.parse(casedata.data.case)
+
+    state.case.client = casedataparse.fields.CustName
+    for (let r in casedata.data.records) {
+      console.log(casedata.data.records[r])
+    }
   }
 }
 

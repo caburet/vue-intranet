@@ -21,4 +21,4 @@ export const addCase = ({ commit }, data) => commit(types.ADD_CASE, data)
 
 export const initData = ({ commit }, data) => commit(types.INIT_DATA, data)
 
-export const refreshCase = ({ commit }, casedata, rowdata) => commit(types.REFRESH_CASE, casedata, rowdata)
+export const refreshCase = ({ commit }, casedata) => commit(types.REFRESH_CASE, casedata)

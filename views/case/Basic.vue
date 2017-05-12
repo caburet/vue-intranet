@@ -74,7 +74,7 @@ export default {
     loadData () {
       console.log(this.$route.params)
       this.$http({
-        url: 'http://joel.openorange.com:8080/intranet/api/getcase/' + this.$route.params.id + '/',
+        url: 'http://localhost:8080/intranet/api/getcase/' + this.$route.params.id + '/',
         transformResponse: [(data) => {
           return JSON.parse(data)
         }],
@@ -83,9 +83,10 @@ export default {
       }).then((response) => {
         console.log('ARRANCA LOS CONSOLE')
         console.log(response.data)
-        console.log(JSON.parse(response.data.case[0]))
-        store.commit(REFRESH_CASE, JSON.parse(response.data.case[0]), response.data.records)
+        console.log(response.data.case[0])
+        console.log(response.data.records)
         console.log('TERMINA LOS CONSOLE')
+        store.commit(REFRESH_CASE, response)
       }).catch((error) => {
         console.log(error)
       })
