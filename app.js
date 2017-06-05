@@ -56,7 +56,7 @@ const app = new Vue({
     this.$nextTick(function () {
        // initialize store data structure by submitting action.
       this.$http({
-        url: 'http://localhost:8080/intranet/api/datafetch',
+        url: '/intranet/api/datafetch',
         transformResponse: [(data) => {
           return JSON.parse(data)
         }],

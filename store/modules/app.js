@@ -12,26 +12,12 @@ const state = {
     clientcase: '3'
   },
   case: {
-    client: 'Open Technologies SA',
-    type: 'Desarrollo',
-    subject: 'Mejoras de Producto',
-    problemdesc: 'Requerimiento',
+    sernr: '',
+    client: '',
+    type: '',
+    subject: '',
+    problemdesc: '',
     caserow: [
-      { User: 'WEBSERVER',
-        Date: '30/03/2017',
-        Comment: 'Facturas de Venta: Propongo como opción de mejora que las FC de ventas una vez validadas en el afip, el campo con el CAI quede gravado y visible en la solapa de lega debajo o al costado del numero legal.-',
-        Asignee: 'RMY'
-      },
-      { User: 'YR',
-        Date: '31/03/2017',
-        Comment: 'Me parece práctico, por favor desarrollarlo en ar.repo y ar para que esté disponible para los clientes de V16 en adelante. Saludos',
-        Asignee: 'HR'
-      },
-      { User: 'HR',
-        Date: '31/03/2017',
-        Comment: 'Asigno. Desarrollar para ar (develop)',
-        Asignee: 'JCOR'
-      }
     ]
   },
   device: {
@@ -95,7 +81,7 @@ const mutations = {
           CaseComment = CaseComment.substring(0, 40) + '...'
         }
       }
-      if (casedata < 5) {
+      if (casedata < 11) {
         state.dash.dashcaseslist.push(
           { SerNr: data[casedata].SerNr,
             CaseTypeComment: data[casedata].CaseTypeComment,
@@ -129,11 +115,17 @@ const mutations = {
     console.log('adentro del refreshcase')
     console.log(JSON.parse(casedata.data.case))
     let casedataparse = JSON.parse(casedata.data.case)
-
+    console.log(casedataparse)
+    state.case.sernr = casedataparse.fields.SerNr
     state.case.client = casedataparse.fields.CustName
+    state.case.type = casedataparse.fields.Type
+    state.case.subject = casedataparse.fields.Subject
+    state.case.problemdesc = casedataparse.fields.ProblemDesc
+    state.case.caserow = []
     for (let r in casedata.data.records) {
-      console.log(casedata.data.records[r])
+      state.case.caserow.push(JSON.parse(casedata.data.records[r]))
     }
+    console.log(state.case)
   }
 }
 

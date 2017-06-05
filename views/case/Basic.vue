@@ -4,8 +4,7 @@
       <div class='tile is-parent'>
         <article class='tile is-child box'>
         <div class="wysiwyg">
-        <h1>Caso #45205</h1>
-        {{ $route.params.id }}
+        <h1>Caso #{{sernr}}</h1>
         <p><strong>Cliente:</strong> {{client}}</p>
         <p><strong>Tipo de Caso:</strong> {{type}}</p>
         <p><strong>Tema:</strong> {{subject}}</p>
@@ -52,19 +51,34 @@
 <script>
 import Chart from 'vue-bulma-chartjs'
 import store from './../../store'
+var { state } = store
 import { REFRESH_CASE } from 'vuex-store/mutation-types'
-const { state } = store
 export default {
   components: {
     Chart
   },
   data () {
     return {
-      caserow: state.app.case.caserow,
-      client: state.app.case.client,
-      type: state.app.case.type,
-      subject: state.app.case.subject,
-      problemdesc: state.app.case.problemdesc
+    }
+  },
+  computed: {
+    sernr () {
+        return state.app.case.sernr;
+    },
+    client () {
+        return state.app.case.client;
+    },
+    type () {
+        return state.app.case.type;
+    },
+    subject () {
+        return state.app.case.subject;
+    },
+    problemdesc () {
+        return state.app.case.problemdesc;
+    },
+    caserow () {
+        return state.app.case.caserow;
     }
   },
   created: function () {
@@ -74,18 +88,13 @@ export default {
     loadData () {
       console.log(this.$route.params)
       this.$http({
-        url: 'http://localhost:8080/intranet/api/getcase/' + this.$route.params.id + '/',
+        url: '/intranet/api/getcase/' + this.$route.params.id + '/',
         transformResponse: [(data) => {
           return JSON.parse(data)
         }],
         params: {
         }
       }).then((response) => {
-        console.log('ARRANCA LOS CONSOLE')
-        console.log(response.data)
-        console.log(response.data.case[0])
-        console.log(response.data.records)
-        console.log('TERMINA LOS CONSOLE')
         store.commit(REFRESH_CASE, response)
       }).catch((error) => {
         console.log(error)
