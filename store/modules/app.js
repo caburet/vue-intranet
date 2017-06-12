@@ -8,8 +8,8 @@ const state = {
   dash: {
     dashcaseslist: [
     ],
-    opencase: '10',
-    clientcase: '3'
+    opencase: 0,
+    clientcase: 0
   },
   case: {
     sernr: '',
@@ -69,19 +69,18 @@ const mutations = {
     state.case.client = data.tittle
   },
   [types.INIT_DATA] (state, data) {
-    console.log(state.dash.clientcase)
-    state.dash.clientcase = 0
     state.dash.opencase = data.length
+    console.log(state.dash.opencase)
     var casedata = ''
     for (casedata in data) {
-      console.log(data[casedata])
+      // console.log(data[casedata])
       var CaseComment = data[casedata].CaseComment
       if (CaseComment) {
         if (CaseComment.length > 40) {
           CaseComment = CaseComment.substring(0, 40) + '...'
         }
       }
-      if (casedata < 11) {
+      if (casedata < 11 && data[casedata].Asignee === 'CLIENTE') {
         state.dash.dashcaseslist.push(
           { SerNr: data[casedata].SerNr,
             CaseTypeComment: data[casedata].CaseTypeComment,
@@ -92,6 +91,7 @@ const mutations = {
             TransDate: data[casedata].TransDate.split('T')[0],
             TransTime: data[casedata].TransTime
           })
+        state.dash.clientcase += 1
       }
       state.caseslist.caseslist.push(
         { SerNr: data[casedata].SerNr,
@@ -104,7 +104,7 @@ const mutations = {
           TransTime: data[casedata].TransTime
         })
       if (data[casedata].Asignee === 'CLIENTE') {
-        state.dash.clientcase += 1
+      // state.dash.clientcase += 1
       }
       console.log(state.dash.clientcase)
     }

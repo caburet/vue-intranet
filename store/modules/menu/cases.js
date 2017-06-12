@@ -1,7 +1,7 @@
 import lazyLoading from './lazyLoading'
 
 export default {
-  name: 'Cases',
+  name: 'Casos',
   meta: {
     icon: 'fa-table',
     expanded: false
@@ -12,7 +12,7 @@ export default {
       name: 'Listado de Casos',
       path: '/cases/basic',
       meta: {
-        label: 'Casos',
+        label: 'Listado de Casos',
         link: 'cases/Basic.vue'
       },
       component: lazyLoading('cases/Basic')
@@ -25,15 +25,6 @@ export default {
         link: 'createcase/Basic.vue'
       },
       component: lazyLoading('createcase/Basic')
-    },
-    {
-      name: 'Ver Caso',
-      path: '/case/basic',
-      meta: {
-        label: 'Ver Caso',
-        link: 'case/Basic.vue'
-      },
-      component: lazyLoading('case/Basic')
     }
 
   ]

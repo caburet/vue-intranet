@@ -32,15 +32,14 @@
             </tfoot>
             <tbody>
             <tr v-for='item in this.caseslist'>
-                <td>{{item.SerNr}}</td>
-                <td>{{item.CaseTypeComment}}</td>
-                <td>{{item.Asignee}}</td>
-                <td>{{item.ProblemDesc}}</td>
-                <td width="30%">{{item.CaseComment}}</td>
-                <td>{{item.StatusName}}</td>
-                <td>{{item.TransDate}}</td>
-                <td>{{item.TransTime}}</td>
-
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.SerNr}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.CaseTypeComment}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.Asignee}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.ProblemDesc}}</router-link></td>
+                <td width="30%"><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.CaseComment}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.StatusName}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.TransDate}}</router-link></td>
+                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.TransTime}}</router-link></td>
               </tr>
             </tbody>
           </table>

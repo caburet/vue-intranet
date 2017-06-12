@@ -48,7 +48,7 @@
               <label class="label"></label>
             </div>
             <div class="control">
-              <button class="button is-primary" v-on:click="onclickfn()">Submit</button>
+              <button class="button is-primary" v-on:click="onclickfn()">Enviar</button>
               <button class="button is-link" v-on:click="onclickcan()">Cancel</button>
             </div>
           </div>
@@ -68,6 +68,10 @@ export default {
   },
   data () {
     return {
+      tittle: '',
+      who: '',
+      type: '',
+      comment: ''
     }
   },
   stated: {},
@@ -88,38 +92,25 @@ export default {
     },
     onclickfn () {
       this.$http({
-        url: '/intranet/api/datafetch',
+        url: '/intranet/api/savecase',
         transformResponse: [(data) => {
           return JSON.parse(data)
         }],
         params: {
           parameters: {
-            Normalized: false,
-            NumberOfDays: false,
-            DataPeriod: false,
-            Elements: []
+            title: this.tittle,
+            who: this.who,
+            type: this.type,
+            comment: this.comment
           }
         }
       }).then((response) => {
-        console.log(response)
-        console.log(response.data)
-        console.log(response.data.records)
-        var arrayLength = response.data.records.length
-        for (var i = 0; i < arrayLength; i++) {
-          let obj = JSON.parse(response.data.records[i])
-          console.log('####################################')
-          console.log(obj)
-          let dic = {}
-          dic.SerNr = obj.SerNr
-          dic.CaseTypeComment = obj.CaseTypeComment
-          dic.Asignee = obj.Asignee
-          dic.ProblemDesc = obj.ProblemDesc
-          dic.CaseComment = obj.CaseComment
-          dic.StatusName = obj.StatusName
-          dic.TransDate = obj.TransDate
-          dic.TransTime = obj.TransTime
-          this.addCase(dic)
-        }
+        this.tittle = ''
+        this.who = ''
+        this.type = ''
+        this.comment = ''
+        // alert("Se ha creado el caso.")
+        this.$router.push('/dasboard')
       }).catch((error) => {
         console.log(error)
       })

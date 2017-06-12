@@ -33,7 +33,10 @@
             </tbody>
           </table>
           </div>
+          <textarea v-model="comment" class="textarea" placeholder="Explica en que te podemos ayudar"></textarea>
+          <button class="button is-primary" v-on:click="onclickfn()">Enviar</button>
         </article>
+
       </div>
     </div>
 
@@ -59,32 +62,48 @@ export default {
   },
   data () {
     return {
+      comment: ''
     }
   },
   computed: {
     sernr () {
-        return state.app.case.sernr;
+      return state.app.case.sernr
     },
     client () {
-        return state.app.case.client;
+      return state.app.case.client
     },
     type () {
-        return state.app.case.type;
+      return state.app.case.type
     },
     subject () {
-        return state.app.case.subject;
+      return state.app.case.subject
     },
     problemdesc () {
-        return state.app.case.problemdesc;
+      return state.app.case.problemdesc
     },
     caserow () {
-        return state.app.case.caserow;
+      return state.app.case.caserow
     }
   },
   created: function () {
     this.loadData()
   },
   methods: {
+    onclickfn () {
+      this.$http({
+        url: '/intranet/api/savecomment/' + this.$route.params.id + '/',
+        transformResponse: [(data) => {
+          return JSON.parse(data)
+        }],
+        params: {
+          comment: this.comment
+        }
+      }).then((response) => {
+        this.loadData()
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
     loadData () {
       console.log(this.$route.params)
       this.$http({
@@ -96,6 +115,7 @@ export default {
         }
       }).then((response) => {
         store.commit(REFRESH_CASE, response)
+        this.comment = ''
       }).catch((error) => {
         console.log(error)
       })
