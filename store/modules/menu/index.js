@@ -4,11 +4,16 @@ import lazyLoading from './lazyLoading'
 // import uifeatures from './uifeatures'
 // import components from './components'
 // import tables from './tables'
-import cases from './cases'
+// import cases from './cases'
 // show: meta.label -> name
 // name: component name
 // meta.label: display label
-
+function dynamicPropsFn (route) {
+  const mostrar = route.query.client || false
+  return {
+    client: mostrar
+  }
+}
 const state = {
   items: [
     {
@@ -21,6 +26,25 @@ const state = {
       },
       component: lazyLoading('dashboard', true)
     },
+    {
+      name: 'Listado de Casos',
+      path: '/cases/basic',
+      meta: {
+        label: 'Listado de Casos',
+        link: 'cases/Basic.vue'
+      },
+      component: lazyLoading('cases/Basic'),
+      props: dynamicPropsFn
+    },
+    {
+      name: 'Crear Caso',
+      path: '/createcase/basic',
+      meta: {
+        label: 'Crear Caso',
+        link: 'createcase/Basic.vue'
+      },
+      component: lazyLoading('createcase/Basic')
+    }
 
     // {
     //   name: 'Login',
@@ -32,7 +56,7 @@ const state = {
     //   },
     //   component: lazyLoading('axios', true)
     // },
-    cases
+    // cases
     // charts,
     // uifeatures,
     // components,

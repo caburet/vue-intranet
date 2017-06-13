@@ -27,11 +27,11 @@
               <th>Resumen</th>
               <th>Estado</th>
               <th>Fecha</th>
-              <th>Hora</th>
+              <th>Hora{{client}}</th>
               </tr>
             </tfoot>
             <tbody>
-            <tr v-for='item in this.caseslist'>
+            <tr v-for='item in this.caseslist' >
                 <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.SerNr}}</router-link></td>
                 <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.CaseTypeComment}}</router-link></td>
                 <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.Asignee}}</router-link></td>
@@ -67,11 +67,19 @@ export default {
   components: {
     Chart
   },
+  props: ['client'],
   data () {
     return {
-      caseslist: state.app.caseslist.caseslist
+    }
+  },
+  computed: {
+    caseslist () {
+      if (this.client) {
+        return state.app.caseslist.caseslist.filter(function (row) { return row.Asignee === 'CLIENTE' })
+      } else {
+        return state.app.caseslist.caseslist
+      }
     }
   }
-
 }
 </script>

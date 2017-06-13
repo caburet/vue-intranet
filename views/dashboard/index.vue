@@ -13,14 +13,14 @@
       </div>
       <div class="tile is-parent">
         <article class="tile is-child box ">
-        <router-link to="/cases/basic">
+        <router-link to="/cases/basic?client=true">
           <p class="title">Atencion</p>
           <p class="subtitle">{{this.clientcase}}</p>
           </router-link>
         </article>
       </div>
     </div>
-    <div class='tile is-ancestor'>
+    <div class='tile is-ancestor' v-if="this.caseslist.length>0">
       <div class='tile is-parent'>
         <article class='tile is-child box'>
           <h4 class='title'>Casos que necesitan atencion</h4>
@@ -86,13 +86,17 @@ export default {
   data () {
     return {
       caseslist: state.app.dash.dashcaseslist,
-      data: [300, 50, 100],
-      opencase: state.app.dash.opencase,
-      clientcase: state.app.dash.clientcase
+      data: [300, 50, 100]
     }
   },
 
   computed: {
+    opencase () {
+      return state.app.dash.opencase
+    },
+    clientcase () {
+      return state.app.dash.clientcase
+    },
     chartData () {
       return {
         labels: [

@@ -1,5 +1,10 @@
 import lazyLoading from './lazyLoading'
-
+function dynamicPropsFn (route) {
+  const mostrar = route.query.client || false
+  return {
+    client: mostrar
+  }
+}
 export default {
   name: 'Casos',
   meta: {
@@ -15,7 +20,8 @@ export default {
         label: 'Listado de Casos',
         link: 'cases/Basic.vue'
       },
-      component: lazyLoading('cases/Basic')
+      component: lazyLoading('cases/Basic'),
+      props: dynamicPropsFn
     },
     {
       name: 'Crear Caso',

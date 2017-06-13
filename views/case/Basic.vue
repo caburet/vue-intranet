@@ -5,11 +5,35 @@
         <article class='tile is-child box'>
         <div class="wysiwyg">
         <h1>Caso #{{sernr}}</h1>
-        <p><strong>Cliente:</strong> {{client}}</p>
-        <p><strong>Tipo de Caso:</strong> {{type}}</p>
-        <p><strong>Tema:</strong> {{subject}}</p>
-        <p><strong>Titulo:</strong> {{problemdesc}}</p>
+        <div class='table-responsive'>
+          <table>
+            <tbody>
+              <tr>
+                <td style="width:50%">
+                <p><strong>Cliente:</strong> {{client}}</p>
+                </td>
+                <td>
+                <p><strong>Tipo de Caso:</strong> {{type}}</p>
+                </td
+              </tr>
+              <tr>
+                <td style="width:50%">
+                <p><strong>Tema:</strong> {{subject}}</p>
+                </td>
+                <td>
+                <p><strong>Titulo:</strong> {{problemdesc}}</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+
+
         <p></p>
+        <textarea v-model="comment" class="textarea" placeholder="Explica en que te podemos ayudar"></textarea>
+        <button class="button is-primary" v-on:click="onclickfn()">Enviar</button>
         </div>
           <div class='table-responsive'>
           <table class='table'>
@@ -25,7 +49,7 @@
             <tbody>
             <tr v-for='item in this.caserow'>
                 <td>{{item.User}}</td>
-                <td>{{item.Date}}</td>
+                <td>{{item.NiceDate}}</td>
                 <td>{{item.Comment}}</td>
                 <td>{{item.Asignee}}</td>
 
@@ -33,8 +57,7 @@
             </tbody>
           </table>
           </div>
-          <textarea v-model="comment" class="textarea" placeholder="Explica en que te podemos ayudar"></textarea>
-          <button class="button is-primary" v-on:click="onclickfn()">Enviar</button>
+
         </article>
 
       </div>
