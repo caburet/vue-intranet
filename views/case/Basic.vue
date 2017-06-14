@@ -33,7 +33,7 @@
 
         <p></p>
         <textarea v-model="comment" class="textarea" placeholder="Explica en que te podemos ayudar"></textarea>
-        <button class="button is-primary" v-on:click="onclickfn()">Enviar</button>
+        <button class="button is-primary" v-on:click="onclickfn()" :disabled="disablebutton == 1 ? true : false">Enviar</button>
         </div>
           <div class='table-responsive'>
           <table class='table'>
@@ -75,20 +75,40 @@
 }
 </style>
 <script>
-import Chart from 'vue-bulma-chartjs'
 import store from './../../store'
 var { state } = store
 import { REFRESH_CASE } from 'vuex-store/mutation-types'
+import Vue from 'vue'
+import Notification from 'vue-bulma-notification'
+const NotificationComponent = Vue.extend(Notification)
+
+const openNotification = (propsData = {
+  title: '',
+  message: '',
+  type: '',
+  direction: '',
+  duration: 4500,
+  container: '.notifications'
+}) => {
+  return new NotificationComponent({
+    el: document.createElement('div'),
+    propsData
+  })
+}
 export default {
   components: {
-    Chart
+    Notification
   },
   data () {
     return {
+      disable: 0,
       comment: ''
     }
   },
   computed: {
+    disablebutton () {
+      return this.disable
+    },
     sernr () {
       return state.app.case.sernr
     },
@@ -113,6 +133,16 @@ export default {
   },
   methods: {
     onclickfn () {
+      this.disable = 1
+      if (!this.comment) {
+        openNotification({
+          message: 'Debe ingresar texto.',
+          type: 'warning',
+          duration: 4500
+        })
+        this.disable = 0
+        return false
+      }
       this.$http({
         url: '/intranet/api/savecomment/' + this.$route.params.id + '/',
         transformResponse: [(data) => {
@@ -122,8 +152,10 @@ export default {
           comment: this.comment
         }
       }).then((response) => {
+        this.disable = 0
         this.loadData()
       }).catch((error) => {
+        this.disable = 0
         console.log(error)
       })
     },

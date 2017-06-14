@@ -16,7 +16,7 @@
             <input name="password" class="input" type="password" placeholder="password">
           </p>
           <p class="control" style="display:none">
-            <input v-model="redirect_on_success" name="redirect_on_success" class="input" type="text" value="dashboard">
+            <input v-model="redirect_on_success" name="redirect_on_success" class="input" type="text" value="/intranet/">
           </p>
           <p class="control" style="display:none">
             <input name="mode" class="input" type="text" value="person">
@@ -39,7 +39,7 @@ export default {
 
   data () {
     return {
-      redirect_on_success: router.resolve('dashboard').href
+      redirect_on_success: '/intranet/' + router.resolve('dashboard').href
     }
   },
   mounted () {

@@ -19,8 +19,8 @@
           </a>
         </div>
         <div class="nav-right is-flex">
-          <router-link v-if="!$auth.check()" to="/login" class="nav-item">Login</router-link>
-          <a v-if="$auth.check()" @click="logout" class="nav-item">Logout</a>
+          <router-link v-if="!personname" to="/login" class="nav-item">Login</router-link>
+          <a v-if="personname" @click="logout" class="nav-item">{{personname}}</a>
         </div>
       </nav>
     </div>
@@ -43,7 +43,8 @@ export default {
 
   computed: mapGetters({
     pkginfo: 'pkg',
-    sidebar: 'sidebar'
+    sidebar: 'sidebar',
+    personname: 'personname'
   }),
 
   methods: {

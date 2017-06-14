@@ -69,7 +69,6 @@ const app = new Vue({
           }
         }
       }).then((response) => {
-        console.log(response)
         var arrayLength = response.data.records.length
         var data = []
         for (var i = 0; i < arrayLength; i++) {
@@ -85,7 +84,7 @@ const app = new Vue({
           dic.TransTime = obj.TransTime
           data.push(dic)
         }
-        store.commit(INIT_DATA, data)
+        store.commit(INIT_DATA, {data: data, casestypes: response.data.casetype, personname: response.data.personname})
       }).catch((error) => {
         console.log(error)
       })

@@ -25,12 +25,7 @@
             <div class="control">
               <div class="select is-fullwidth">
                 <select v-model="type" >
-                  <option value="CONSULTORIA">Analítico</option>
-                  <option value="SOPORTE">Básico</option>
-                  <option value="DATOBOX">Datobox</option>
-                  <option value="PROGRAMACION">Desarrollo</option>
-                  <option value="WEB">Pendiente de Asignar</option>
-                  <option value="PRODUCTO">Producto / Funcionalidades Nuevas / Oppen 2</option>
+                 <option v-for="casetype in casestypes" :value="casetype.Code">{{ casetype.Comment }}</option>
                 </select>
               </div>
             </div>
@@ -40,7 +35,7 @@
               <label class="label">Descripción</label>
             </div>
             <div class="control">
-              <textarea v-model="comment" class="textarea" placeholder="Explica en que te podemos ayudar"></textarea>
+              <textarea v-model="comment" class="textarea" placeholder="Comente aquí su consulta."></textarea>
             </div>
           </div>
           <div class="control is-horizontal">
@@ -48,7 +43,7 @@
               <label class="label"></label>
             </div>
             <div class="control">
-              <button class="button is-primary" v-on:click="onclickfn()">Enviar</button>
+              <button class="button is-primary" v-on:click="onclickfn()" :disabled="disablebutton == 1 ? true : false">Enviar</button>
               <button class="button is-link" v-on:click="onclickcan()">Cancel</button>
             </div>
           </div>
@@ -60,37 +55,67 @@
 </template>
 
 <script>
-import Chart from 'vue-bulma-chartjs'
 import { mapActions } from 'vuex'
+import store from './../../store'
+const { state } = store
+import { INIT_DATA } from 'vuex-store/mutation-types'
+import Vue from 'vue'
+import Notification from 'vue-bulma-notification'
+const NotificationComponent = Vue.extend(Notification)
+
+const openNotification = (propsData = {
+  title: '',
+  message: '',
+  type: '',
+  direction: '',
+  duration: 4500,
+  container: '.notifications'
+}) => {
+  return new NotificationComponent({
+    el: document.createElement('div'),
+    propsData
+  })
+}
 export default {
   components: {
-    Chart
+    Notification
   },
   data () {
     return {
       tittle: '',
       who: '',
       type: '',
-      comment: ''
+      comment: '',
+      disable: 0
     }
   },
   stated: {},
+  computed: {
+    disablebutton () {
+      return this.disable
+    },
+    casestypes () {
+      return state.app.casestypes
+    }
+  },
   methods: {
     ...mapActions([
       'addCase'
     ]),
-    onclickfnbkp () {
-      let dic = {}
-      dic.tittle = this.tittle
-      dic.who = this.who
-      dic.tittle = this.tittle
-      dic.type = this.type
-      this.addCase(dic)
-    },
     onclickcan () {
       this.$router.push('/cases/basic')
     },
     onclickfn () {
+      this.disable = 1
+      if (!this.tittle || !this.who || !this.type || !this.comment) {
+        openNotification({
+          message: 'Debe completar todos los campos.',
+          type: 'warning',
+          duration: 4500
+        })
+        this.disable = 0
+        return false
+      }
       this.$http({
         url: '/intranet/api/savecase',
         transformResponse: [(data) => {
@@ -105,13 +130,63 @@ export default {
           }
         }
       }).then((response) => {
+        this.disable = 0
         this.tittle = ''
         this.who = ''
         this.type = ''
         this.comment = ''
-        // alert("Se ha creado el caso.")
-        this.$router.push('/dasboard')
+        this.$http({
+          url: '/intranet/api/datafetch',
+          transformResponse: [(data) => {
+            return JSON.parse(data)
+          }],
+          params: {
+            parameters: {
+              Normalized: false,
+              NumberOfDays: false,
+              DataPeriod: false,
+              Elements: []
+            }
+          }
+        }).then((response) => {
+          var arrayLength = response.data.records.length
+          var data = []
+          for (var i = 0; i < arrayLength; i++) {
+            let obj = JSON.parse(response.data.records[i])
+            let dic = {}
+            dic.SerNr = obj.SerNr
+            dic.CaseTypeComment = obj.CaseTypeComment
+            dic.Asignee = obj.Asignee
+            dic.ProblemDesc = obj.ProblemDesc
+            dic.CaseComment = obj.CaseComment
+            dic.StatusName = obj.StatusName
+            dic.TransDate = obj.TransDate
+            dic.TransTime = obj.TransTime
+            data.push(dic)
+          }
+          store.commit(INIT_DATA, {data: data, casestypes: response.data.casetype, personname: response.data.personname})
+          openNotification({
+            message: 'Se ha creado el caso.',
+            type: 'success',
+            duration: 4500
+          })
+        }).catch((error) => {
+          openNotification({
+            message: 'Ha ocurrido un error.',
+            type: 'danger',
+            duration: 4500
+          })
+          console.log(error)
+        })
+        this.$router.push('/cases/basic/')
+        // alert('Se ha creado el caso.') // eslint-disable-line no-alert
       }).catch((error) => {
+        openNotification({
+          message: 'Ha ocurrido un error.',
+          type: 'danger',
+          duration: 4500
+        })
+        // alert(error) // eslint-disable-line no-alert
         console.log(error)
       })
     }
