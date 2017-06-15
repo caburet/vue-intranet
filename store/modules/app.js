@@ -28,7 +28,7 @@ const state = {
   },
   sidebar: {
     opened: false,
-    hidden: false
+    hidden: true
   },
   personname: '',
   effect: {
@@ -74,6 +74,14 @@ const mutations = {
   [types.INIT_DATA] (state, data) {
     console.log(data)
     state.personname = data.personname
+    if (!state.personname){
+      state.sidebar.hidden = true
+      this.$router.push('/login')
+    }
+    else
+    {
+      state.sidebar.hidden = false
+    }
     state.casestypes = data.casestypes
     data = data.data
     state.dash.opencase = data.length

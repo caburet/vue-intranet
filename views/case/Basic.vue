@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class='tile is-ancestor'>
+    <div class="tile is-ancestor"  v-if="personname===''">
+    No estas logeado
+    </div>
+    <div class="tile is-ancestor"  v-else>
       <div class='tile is-parent'>
         <article class='tile is-child box'>
         <div class="wysiwyg">
@@ -105,7 +108,11 @@ export default {
       comment: ''
     }
   },
+
   computed: {
+    personname () {
+      return state.app.personname
+    },
     disablebutton () {
       return this.disable
     },

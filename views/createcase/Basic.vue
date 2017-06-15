@@ -1,50 +1,59 @@
 <template>
   <div>
-    <div class="tile is-ancestor">
-    <div class="tile is-parent">
-      <article class="tile is-child box">
-        <h1 class="title">Formulario Para la Creacion de Casos</h1>
-        <div class="block">
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Titulo</label>
+    <div class="tile is-ancestor"  v-if="personname===''">
+    No estas logeado
+    </div>
+    <div class="tile is-ancestor"  v-else>
+    <div class='tile is-parent'>
+      <article class='tile is-child box'>
+        <h1 class='title'>Formulario Para la Creacion de Casos</h1>
+        <div class='block'>
+          <div class='control is-horizontal'>
+            <div class='control-label'>
+              <label class='label'>Titulo</label>
             </div>
-            <div class="control is-grouped">
-              <p class="control is-expanded">
-                <input class="input" type="text" v-model="tittle" placeholder="Titulo">
+            <div class='control is-grouped'>
+              <p class='control is-expanded'>
+                <input class='input' type='text' v-model='tittle' placeholder='Titulo'>
               </p>
-              <p class="control is-expanded">
-                <input class="input" type="text" v-model="who"  placeholder="¿Quien lo Solicita?">
+              <p class='control is-expanded'>
+                <input class='input' type='text' v-model='who'  placeholder='¿Quien lo Solicita?'>
               </p>
             </div>
           </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Tipo de Caso</label>
+          <div class='control is-horizontal'>
+            <div class='control-label'>
+              <label class='label'>Tipo de Caso</label>
             </div>
-            <div class="control">
-              <div class="select is-fullwidth">
-                <select v-model="type" >
-                 <option v-for="casetype in casestypes" :value="casetype.Code">{{ casetype.Comment }}</option>
+            <div class='control'>
+              <div class='select is-fullwidth'>
+                <select v-model='type' >
+                 <option v-for='casetype in casestypes' :value='casetype.Code'>{{ casetype.Comment }}</option>
                 </select>
               </div>
             </div>
           </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Descripción</label>
+          <div class='control is-horizontal'>
+            <div class='control-label'>
+              <label class='label'>Descripcion</label>
             </div>
-            <div class="control">
-              <textarea v-model="comment" class="textarea" placeholder="Comente aquí su consulta."></textarea>
+            <div class='control is-grouped'>
+              <p class='control is-expanded'>
+                <textarea v-model='comment' class='textarea' placeholder='Comente aquí su consulta.'></textarea>
+              </p>
+              <form class='control is-expanded'>
+                <input id = 'attachform' class='input' type='file' >
+
+              </form>
             </div>
           </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label"></label>
+          <div class='control is-horizontal'>
+            <div class='control-label'>
+              <label class='label'></label>
             </div>
-            <div class="control">
-              <button class="button is-primary" v-on:click="onclickfn()" :disabled="disablebutton == 1 ? true : false">Enviar</button>
-              <button class="button is-link" v-on:click="onclickcan()">Cancel</button>
+            <div class='control'>
+              <button class='button is-primary' v-on:click='onclickfn()' :disabled='disablebutton == 1 ? true : false'>Enviar</button>
+              <button class='button is-link' v-on:click='onclickcan()'>Cancel</button>
             </div>
           </div>
         </div>
@@ -53,7 +62,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapActions } from 'vuex'
 import store from './../../store'
@@ -62,7 +70,7 @@ import { INIT_DATA } from 'vuex-store/mutation-types'
 import Vue from 'vue'
 import Notification from 'vue-bulma-notification'
 const NotificationComponent = Vue.extend(Notification)
-
+var $ = window.jQuery = require('jquery');
 const openNotification = (propsData = {
   title: '',
   message: '',
@@ -91,6 +99,9 @@ export default {
   },
   stated: {},
   computed: {
+    personname () {
+      return state.app.personname
+    },
     disablebutton () {
       return this.disable
     },
@@ -102,7 +113,52 @@ export default {
     ...mapActions([
       'addCase'
     ]),
+    progressHandlingFunction ()
+    {
+      console.log(args)
+    },
+    uploadAttach (sernr){
+      var additional_data = {}
+      additional_data['OriginRecordName'] = 'Case'
+      additional_data['OriginNr'] = sernr
+      var id = 'attachform'
+      var formData = new FormData($('#' + id).find('form')[0])
+      if (!additional_data) additional_data = {}
+      for (let k of Object.keys(additional_data)) {
+          formData.append(k , additional_data[k])
+      }
+      $.ajax({
+        url: window.location.origin + '/oo/api/create_attatch',  //Server script to process data
+        type: 'POST',
+        xhr: function() { // Custom XMLHttpRequest
+          var myXhr = $.ajaxSettings.xhr()
+          if (myXhr.upload) { // Check if upload property exists
+            myXhr.upload.addEventListener('progress', this.progressHandlingFunction, false) // For handling the progress of the upload
+          }
+          return myXhr
+        },
+        // Ajax events
+        beforeSend: () => {
+          console.log('beforeSend', arguments)
+        },
+        success: () => {
+          // oo.ui.dialogs.resolve(id, true)
+          console.log('success', arguments)
+        },
+        error: (error) => {
+          // oo.ui.dialogs.resolve(id, false)
+          console.log('error', error)
+        },
+        // Form data
+        data: formData,
+        // Options to tell jQuery not to process data or worry about content-type.
+        cache: false,
+        contentType: false,
+        processData: false
+      })
+    },
     onclickcan () {
+      this.uploadAttach()
       this.$router.push('/cases/basic')
     },
     onclickfn () {
@@ -135,6 +191,7 @@ export default {
         this.who = ''
         this.type = ''
         this.comment = ''
+        this.uploadAttach(response.SerNr)
         this.$http({
           url: '/intranet/api/datafetch',
           transformResponse: [(data) => {
@@ -193,7 +250,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang='scss'>
 .table-responsive {
   display: block;
   width: 100%;

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class='tile is-ancestor'>
+    <div class="tile is-ancestor"  v-if="personname===''">
+    No estas logeado
+    </div>
+    <div class="tile is-ancestor"  v-else>
       <div class='tile is-parent'>
         <article class='tile is-child box'>
           <h4 class='title'>Table</h4>
@@ -73,6 +76,9 @@ export default {
     }
   },
   computed: {
+    personname () {
+      return state.app.personname
+    },
     caseslist () {
       if (this.client) {
         return state.app.caseslist.caseslist.filter(function (row) { return row.Asignee === 'CLIENTE' })

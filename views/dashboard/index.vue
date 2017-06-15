@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="tile is-ancestor">
+    <div class="tile is-ancestor"  v-if="personname===''">
+    No estas logeado
+    </div>
+    <div class="tile is-ancestor"  v-else>
       <div class="tile is-parent">
 
         <article class="tile is-child box">
@@ -76,43 +79,27 @@
 </template>
 
 <script>
-import Chart from 'vue-bulma-chartjs'
 import store from './../../store'
 const { state } = store
 export default {
   components: {
-    Chart
   },
   data () {
     return {
-      caseslist: state.app.dash.dashcaseslist,
-      data: [300, 50, 100]
     }
   },
-
   computed: {
+    personname () {
+      return state.app.personname
+    },
     opencase () {
       return state.app.dash.opencase
     },
+    caseslist () {
+      return state.app.dash.dashcaseslist
+    },
     clientcase () {
       return state.app.dash.clientcase
-    },
-    chartData () {
-      return {
-        labels: [
-          'Red',
-          'Blue',
-          'Yellow'
-        ],
-        datasets: [{
-          data: this.data,
-          backgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56'
-          ]
-        }]
-      }
     }
   },
   stated: {},

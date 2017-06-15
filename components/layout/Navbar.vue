@@ -9,13 +9,10 @@
         </div>
         <div class="nav-center">
           <a class="nav-item hero-brand" href="http://www.openorange.com">
-
-
-              <div class="is-hidden-mobile">
-                <span class="vue">Power by </span>
-                <img src="http://openorange.com/site/img/logo_open.png" :alt="pkginfo.description">
+               <div class="is-hidden-mobile">
+                <img src="/static/intranet/favicon.ico">
+                <span class="oologo">öppen</span>
               </div>
-
           </a>
         </div>
         <div class="nav-right is-flex">
@@ -26,7 +23,13 @@
     </div>
   </section>
 </template>
-
+<style>
+.oologo{
+    color: #d85c81;
+    font-size: 15px;
+    margin: 0;
+}
+</style>
 <script>
 import Tooltip from 'vue-bulma-tooltip'
 import { mapGetters, mapActions } from 'vuex'
