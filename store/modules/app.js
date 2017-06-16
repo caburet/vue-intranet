@@ -1,8 +1,6 @@
 import * as types from '../mutation-types'
 
 const state = {
-  casestypes: {
-  },
   caseslist: {
     caseslist: [
     ]
@@ -28,12 +26,12 @@ const state = {
   },
   sidebar: {
     opened: false,
-    hidden: true
+    hidden: false
   },
-  personname: '',
   effect: {
     translate3d: true
-  }
+  },
+  personname: ''
 }
 
 const mutations = {
@@ -72,23 +70,15 @@ const mutations = {
     state.case.client = data.tittle
   },
   [types.INIT_DATA] (state, data) {
-    console.log(data)
+    console.log(data);
+
+
+
     state.personname = data.personname
-    if (!state.personname){
-      state.sidebar.hidden = true
-      this.$router.push('/login')
-    }
-    else
-    {
-      state.sidebar.hidden = false
-    }
-    state.casestypes = data.casestypes
     data = data.data
     state.dash.opencase = data.length
     console.log(state.dash.opencase)
     var casedata = ''
-    state.dash.dashcaseslist = []
-    state.caseslist.caseslist = []
     for (casedata in data) {
       // console.log(data[casedata])
       var CaseComment = data[casedata].CaseComment

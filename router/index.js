@@ -27,7 +27,7 @@ export default new Router({
         label: 'Ver Caso',
         link: 'case/Basic.vue'
       },
-      component: lazyLoading('case/Basic')
+      component: require('../views/case/Basic')
     },
     {
       path: '*',

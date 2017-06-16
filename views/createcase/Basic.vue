@@ -113,9 +113,9 @@ export default {
     ...mapActions([
       'addCase'
     ]),
-    progressHandlingFunction ()
+    progressHandlingFunction (e)
     {
-      console.log(args)
+      console.log(e)
     },
     uploadAttach (sernr){
       var additional_data = {}
