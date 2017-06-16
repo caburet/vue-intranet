@@ -1,6 +1,7 @@
 import * as types from '../mutation-types'
 
 const state = {
+  casestypes:{},
   caseslist: {
     caseslist: [
     ]
@@ -75,6 +76,7 @@ const mutations = {
 
 
     state.personname = data.personname
+    state.casestypes = data.casestypes
     data = data.data
     state.dash.opencase = data.length
     console.log(state.dash.opencase)
@@ -87,7 +89,7 @@ const mutations = {
           CaseComment = CaseComment.substring(0, 40) + '...'
         }
       }
-      if (casedata < 11 && data[casedata].Asignee === 'CLIENTE') {
+      if (casedata < 11 && data[casedata].State === 'CLIENTE') {
         state.dash.dashcaseslist.push(
           { SerNr: data[casedata].SerNr,
             CaseTypeComment: data[casedata].CaseTypeComment,
@@ -110,7 +112,7 @@ const mutations = {
           TransDate: data[casedata].TransDate.split('T')[0],
           TransTime: data[casedata].TransTime
         })
-      if (data[casedata].Asignee === 'CLIENTE') {
+      if (data[casedata].State === 'CLIENTE') {
       // state.dash.clientcase += 1
       }
       console.log(state.dash.clientcase)

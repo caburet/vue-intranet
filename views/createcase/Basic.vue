@@ -37,13 +37,12 @@
             <div class='control-label'>
               <label class='label'>Descripcion</label>
             </div>
-            <div class='control is-grouped'>
+            <div class='control is-grouped' >
               <p class='control is-expanded'>
                 <textarea v-model='comment' class='textarea' placeholder='Comente aquí su consulta.'></textarea>
               </p>
-              <form class='control is-expanded'>
-                <input id = 'attachform' class='input' type='file' >
-
+              <form id = 'attachform' enctype="multipart/form-data"  class='control is-expanded'>
+                <input id= 'myfile' name ="myfile" class='input' type='file' >
               </form>
             </div>
           </div>
@@ -118,17 +117,24 @@ export default {
       console.log(e)
     },
     uploadAttach (sernr){
+      if ($('#myfile')[0].files.length==0)
+      {
+        return false
+      }
       var additional_data = {}
       additional_data['OriginRecordName'] = 'Case'
-      additional_data['OriginNr'] = sernr
+      additional_data['OriginId'] = sernr
       var id = 'attachform'
-      var formData = new FormData($('#' + id).find('form')[0])
+      var formData = new FormData($.find('#' + id))
+      $.each($('#myfile')[0].files, function(i, file) {
+          formData.append('file-'+i, file);
+      });
       if (!additional_data) additional_data = {}
       for (let k of Object.keys(additional_data)) {
           formData.append(k , additional_data[k])
       }
       $.ajax({
-        url: window.location.origin + '/oo/api/create_attatch',  //Server script to process data
+        url: window.location.origin + '/oo/api/create_attach',  //Server script to process data
         type: 'POST',
         xhr: function() { // Custom XMLHttpRequest
           var myXhr = $.ajaxSettings.xhr()
@@ -158,7 +164,7 @@ export default {
       })
     },
     onclickcan () {
-      this.uploadAttach()
+      // this.uploadAttach('46747')
       this.$router.push('/cases/basic')
     },
     onclickfn () {
@@ -191,7 +197,7 @@ export default {
         this.who = ''
         this.type = ''
         this.comment = ''
-        this.uploadAttach(response.SerNr)
+        this.uploadAttach(response.sernr)
         this.$http({
           url: '/intranet/api/datafetch',
           transformResponse: [(data) => {
