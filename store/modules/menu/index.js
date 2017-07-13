@@ -1,13 +1,6 @@
 import * as types from '../../mutation-types'
 import lazyLoading from './lazyLoading'
-// import charts from './charts'
-// import uifeatures from './uifeatures'
-// import components from './components'
-// import tables from './tables'
-// import cases from './cases'
-// show: meta.label -> name
-// name: component name
-// meta.label: display label
+
 function dynamicPropsFn (route) {
   const mostrar = route.query.client || false
   return {

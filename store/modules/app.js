@@ -32,7 +32,8 @@ const state = {
   effect: {
     translate3d: true
   },
-  personname: ''
+  personname: '',
+  clientstate: ''
 }
 
 const mutations = {
@@ -56,25 +57,14 @@ const mutations = {
   },
   [types.ADD_CASE] (state, data) {
     console.log(data)
-    state.dash.dashcaseslist.push(
-      { SerNr: 'dataSerNr',
-        CaseTypeComment: data.CaseTypeComment,
-        Asignee: data.Asignee,
-        ProblemDesc: data.ProblemDesc,
-        CaseComment: data.CaseComment,
-        StatusName: data.StatusName,
-        TransDate: data.TransDate,
-        TransTime: data.SeTransTimerNr
-      }
 
-    )
     state.case.client = data.tittle
   },
   [types.INIT_DATA] (state, data) {
     console.log(data);
 
 
-
+    state.clientstate = data.clientstate
     state.personname = data.personname
     state.casestypes = data.casestypes
     data = data.data
@@ -89,19 +79,6 @@ const mutations = {
           CaseComment = CaseComment.substring(0, 40) + '...'
         }
       }
-      if (casedata < 11 && data[casedata].State === 'CLIENTE') {
-        state.dash.dashcaseslist.push(
-          { SerNr: data[casedata].SerNr,
-            CaseTypeComment: data[casedata].CaseTypeComment,
-            Asignee: data[casedata].Asignee,
-            ProblemDesc: data[casedata].ProblemDesc,
-            CaseComment: CaseComment,
-            StatusName: data[casedata].StatusName,
-            TransDate: data[casedata].TransDate.split('T')[0],
-            TransTime: data[casedata].TransTime
-          })
-        state.dash.clientcase += 1
-      }
       state.caseslist.caseslist.push(
         { SerNr: data[casedata].SerNr,
           CaseTypeComment: data[casedata].CaseTypeComment,
@@ -110,21 +87,20 @@ const mutations = {
           CaseComment: CaseComment,
           StatusName: data[casedata].StatusName,
           TransDate: data[casedata].TransDate.split('T')[0],
-          TransTime: data[casedata].TransTime
+          TransTime: data[casedata].TransTime,
+          State:data[casedata].State
         })
-      if (data[casedata].State === 'CLIENTE') {
-      // state.dash.clientcase += 1
-      }
-      console.log(state.dash.clientcase)
+
+      //
+    }
+    state.dash.clientcase=0
+    for (let eachstate in state.clientstate.split(",")){
+       state.dash.clientcase += state.caseslist.caseslist.filter(function(x){return x.State===state.clientstate.split(",")[eachstate]}).length
     }
     console.log('INIT DATA !!')
-    console.log(data)
   },
   [types.REFRESH_CASE] (state, casedata) {
-    console.log('adentro del refreshcase')
-    console.log(JSON.parse(casedata.data.case))
     let casedataparse = JSON.parse(casedata.data.case)
-    console.log(casedataparse)
     state.case.sernr = casedataparse.fields.SerNr
     state.case.client = casedataparse.fields.CustName
     state.case.type = casedataparse.fields.Type
@@ -134,7 +110,6 @@ const mutations = {
     for (let r in casedata.data.records) {
       state.case.caserow.push(JSON.parse(casedata.data.records[r]))
     }
-    console.log(state.case)
   }
 }
 

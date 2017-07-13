@@ -9,6 +9,8 @@ import router from './router'
 import store from './store'
 import * as filters from './filters'
 import { TOGGLE_SIDEBAR, INIT_DATA } from 'vuex-store/mutation-types'
+import VuePaginate from 'vue-paginate'
+Vue.use(VuePaginate)
 Vue.router = router
 Vue.use(VueAxios, axios)
 Vue.use(VueAuth, {
@@ -72,9 +74,10 @@ const app = new Vue({
           dic.StatusName = obj.StatusName
           dic.TransDate = obj.TransDate
           dic.TransTime = obj.TransTime
+          dic.State = obj.State
           data.push(dic)
         }
-        store.commit(INIT_DATA, {data: data, casestypes: response.data.casetype, personname: response.data.personname})
+        store.commit(INIT_DATA, {data: data, casestypes: response.data.casetype, personname: response.data.personname, clientstate:response.data.clientstate})
       }).catch((error) => {
         this.$router.push('/login')
       })

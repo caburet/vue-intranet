@@ -42,7 +42,7 @@
                 <textarea v-model='comment' class='textarea' placeholder='Comente aquí su consulta.'></textarea>
               </p>
               <form id = 'attachform' enctype="multipart/form-data"  class='control is-expanded'>
-                <input id= 'myfile' name ="myfile" class='input' type='file' >
+                <input id= 'myfile' name ="myfile" class='input' type='file' multiple>
               </form>
             </div>
           </div>
@@ -197,7 +197,7 @@ export default {
         this.who = ''
         this.type = ''
         this.comment = ''
-        this.uploadAttach(response.sernr)
+        this.uploadAttach(response.data.sernr)
         this.$http({
           url: '/intranet/api/datafetch',
           transformResponse: [(data) => {
@@ -225,9 +225,10 @@ export default {
             dic.StatusName = obj.StatusName
             dic.TransDate = obj.TransDate
             dic.TransTime = obj.TransTime
+            dic.State = obj.State
             data.push(dic)
           }
-          store.commit(INIT_DATA, {data: data, casestypes: response.data.casetype, personname: response.data.personname})
+          store.commit(INIT_DATA, {data: data, casestypes: response.data.casetype, personname: response.data.personname, clientstate:response.data.clientstates})
           openNotification({
             message: 'Se ha creado el caso.',
             type: 'success',

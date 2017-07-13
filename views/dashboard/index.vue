@@ -96,7 +96,7 @@ export default {
       return state.app.dash.opencase
     },
     caseslist () {
-      return state.app.dash.dashcaseslist
+      return state.app.caseslist.caseslist.filter(function(x){return state.app.clientstate.split(",").indexOf(x.State) >= 0})
     },
     clientcase () {
       return state.app.dash.clientcase
