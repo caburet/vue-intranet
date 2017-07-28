@@ -94,8 +94,10 @@ const mutations = {
       //
     }
     state.dash.clientcase=0
-    for (let eachstate in state.clientstate.split(",")){
-       state.dash.clientcase += state.caseslist.caseslist.filter(function(x){return x.State===state.clientstate.split(",")[eachstate]}).length
+    if (state.clientstate){
+      for (let eachstate in state.clientstate.split(",")){
+        state.dash.clientcase += state.caseslist.caseslist.filter(function(x){return x.State===state.clientstate.split(",")[eachstate]}).length
+      }
     }
     console.log('INIT DATA !!')
   },

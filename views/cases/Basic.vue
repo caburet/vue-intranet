@@ -7,7 +7,7 @@
       <div class='tile is-parent'>
         <article class='tile is-child box'>
           <div class='table-responsive'>
-            <v-client-table :data="caseslist" :columns="columns" :options="options"></v-client-table>
+            <v-client-table :data="caseslist" :columns="columns" :options="options" @row-click="opencase"></v-client-table>
           </div>
         </article>
       </div>
@@ -16,9 +16,6 @@
   </div>
 </template>
 
-<style lang='scss'>
-
-</style>
 <script>
 import Vue from 'vue'
 import {ServerTable, ClientTable, Event} from 'vue-tables-2';
@@ -51,6 +48,11 @@ export default {
       }
     }
   },
+  methods: {
+    opencase(row) {
+      this.$router.push('/case/basic/'+row.row.SerNr);
+    }
+  },
   computed: {
     personname () {
       return state.app.personname
@@ -65,3 +67,20 @@ export default {
   }
 }
 </script>
+
+
+
+computed: {
+personname () {
+return state.app.personname
+},
+opencase () {
+return state.app.dash.opencase
+},
+caseslist () {
+return state.app.caseslist.caseslist.filter(function(x){return state.app.clientstate.split(",").indexOf(x.State) >= 0})
+},
+clientcase () {
+return state.app.dash.clientcase
+}
+}
