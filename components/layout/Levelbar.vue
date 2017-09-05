@@ -1,23 +1,6 @@
 <template>
   <nav class="level app-levelbar">
-    <div class="level-left">
-      <div class="level-item">
-        <h3 class="subtitle is-5">
-          <strong>{{ name }}</strong>
-        </h3>
-      </div>
-      <div class="level-item" v-if="!!codelink">
-        <tooltip label="View code" placement="right" size="small" :rounded="true">
-          <span class="icon">
-            <a  :href="codelink">
-              <i class="fa fa-github"></i>
-            </a>
-          </span>
-        </tooltip>
-      </div>
-    </div>
-
-    <div class="level-right is-hidden-mobile">
+    <div class="">
       <breadcrumb :list="list"></breadcrumb>
     </div>
   </nav>

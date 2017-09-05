@@ -1,18 +1,17 @@
 <template>
-  <section class="hero is-bold app-navbar animated" :class="{ slideInDown: show, slideOutDown: !show }">
-    <div class="hero-head">
+  <section class="app-navbar animated" :class="{ slideInDown: show, slideOutDown: !show }">
+    <div class="">
       <nav class="nav">
-        <div class="nav-left">
+        <div class="nav-burger">
           <a class="nav-item is-hidden-tablet" @click="toggleSidebar(!sidebar.opened)">
-            <i class="fa fa-bars" aria-hidden="true"></i>
+            <i class="icon fa fa-bars" aria-hidden="true"></i>
           </a>
         </div>
-        <div class="nav-center">
-          <a class="nav-item hero-brand" href="http://www.openorange.com">
-               <div class="is-hidden-mobile">
-                <img src="/static/intranet/favicon.ico">
-                <span class="oologo">öppen</span>
-              </div>
+        <div class="nav-brand">
+          <a class="nav-item" href="http://www.openorange.com">
+            <div class="is-hidden-mobile">
+              <span class="oo-logo">öppen</span>
+            </div>
           </a>
         </div>
         <div class="nav-right is-flex">
@@ -23,13 +22,7 @@
     </div>
   </section>
 </template>
-<style>
-.oologo{
-    color: #d85c81;
-    font-size: 15px;
-    margin: 0;
-}
-</style>
+
 <script>
 import Tooltip from 'vue-bulma-tooltip'
 import { mapGetters, mapActions } from 'vuex'
@@ -77,8 +70,32 @@ export default {
   z-index: 1024;
   box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
 
+  .nav {
+    background: #293a56;
+  }
+
   .container {
     margin: auto 10px;
+  }
+
+  .oo-logo {
+    color: #d85c81;
+    font-size: 24px;
+    line-height: 35px;
+    margin: 0;
+  }
+
+  .nav-item {
+    color: #eee;
+    font-size: 1.1rem;
+    &.is-active,
+    &:hover {
+      color: #ccc;
+    }
+    .icon {
+      font-size: 2rem;
+      margin-top: 3px;
+    }
   }
 
   .nav-right {
@@ -89,16 +106,6 @@ export default {
     overflow: hidden;
     overflow-x: auto;
     white-space: nowrap;
-  }
-}
-
-.hero-brand {
-  .vue {
-    margin-left: 10px;
-    color: #36AC70;
-  }
-  .admin {
-    color: #28374B;
   }
 }
 </style>
