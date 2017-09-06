@@ -65,8 +65,39 @@ export default {
 $fa-font-path: '~font-awesome/fonts/';
 @import '~font-awesome/scss/font-awesome';
 
+$oo-blue: #293a56;
+$oo-pink: #d85c81;
+
 html {
   background-color: whitesmoke;
+}
+
+a {
+  color: #d85c81;
+}
+
+.button {
+  &.is-primary {
+    background: $oo-pink;
+  }
+  &.is-primary:hover {
+    background: darken($oo-pink, 10%);
+  }
+  &:focus,
+  &.is-focused {
+    border-color: $oo-pink;
+    box-shadow: 0 0 0.5em rgba(216, 92, 129, 0.25);
+  }
+}
+
+.menu-list a {
+  &:hover {
+    color: $oo-pink;
+  }
+  &.is-active {
+    background: $oo-pink;
+    color: white;
+  }
 }
 
 .nprogress-container {
