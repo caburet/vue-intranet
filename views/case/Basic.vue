@@ -30,13 +30,27 @@
             </tbody>
           </table>
         </div>
-
-
-
-
         <p></p>
-        <textarea v-model="comment" class="textarea" placeholder="Explica en que te podemos ayudar"></textarea>
-        <button class="button is-primary" v-on:click="onclickfn()" :disabled="disablebutton == 1 ? true : false">Enviar</button>
+        <div class='control is-horizontal'>
+
+          <div class='control is-grouped' >
+            <p class='control is-expanded'>
+              <textarea v-model='comment' class='textarea' placeholder='Comente aquí su consulta.'></textarea>
+            </p>
+            <form id = 'attachform' enctype="multipart/form-data"  class='control is-expanded'>
+              <input id= 'myfile' name ="myfile" class='input' type='file' multiple>
+            </form>
+          </div>
+        </div>
+        <div class='control is-horizontal'>
+          <div class='control-label'>
+            <label class='label'></label>
+          </div>
+          <div class='control'>
+            <button class="button is-primary" v-on:click="onclickfn()" :disabled="disablebutton == 1 ? true : false">Enviar</button>
+            <button class='button is-link' v-on:click='onclickcan()'>Cancel</button>
+          </div>
+        </div>
         </div>
           <div class='table-responsive'>
           <table class='table'>
@@ -83,6 +97,7 @@ var { state } = store
 import { REFRESH_CASE } from 'vuex-store/mutation-types'
 import Vue from 'vue'
 import Notification from 'vue-bulma-notification'
+var $ = window.jQuery = require('jquery');
 const NotificationComponent = Vue.extend(Notification)
 
 const openNotification = (propsData = {
@@ -139,6 +154,56 @@ export default {
     this.loadData()
   },
   methods: {
+    uploadAttach (sernr){
+      if ($('#myfile')[0].files.length==0)
+      {
+        return false
+      }
+      var additional_data = {}
+      additional_data['OriginRecordName'] = 'Case'
+      additional_data['OriginId'] = sernr
+      var id = 'attachform'
+      var formData = new FormData($.find('#' + id))
+      $.each($('#myfile')[0].files, function(i, file) {
+          formData.append('file-'+i, file);
+      });
+      if (!additional_data) additional_data = {}
+      for (let k of Object.keys(additional_data)) {
+          formData.append(k , additional_data[k])
+      }
+      $.ajax({
+        url: window.location.origin + '/oo/api/create_attach',  //Server script to process data
+        type: 'POST',
+        xhr: function() { // Custom XMLHttpRequest
+          var myXhr = $.ajaxSettings.xhr()
+          if (myXhr.upload) { // Check if upload property exists
+            myXhr.upload.addEventListener('progress', this.progressHandlingFunction, false) // For handling the progress of the upload
+          }
+          return myXhr
+        },
+        // Ajax events
+        beforeSend: () => {
+          console.log('beforeSend', arguments)
+        },
+        success: () => {
+          // oo.ui.dialogs.resolve(id, true)
+          console.log('success', arguments)
+        },
+        error: (error) => {
+          // oo.ui.dialogs.resolve(id, false)
+          console.log('error', error)
+        },
+        // Form data
+        data: formData,
+        // Options to tell jQuery not to process data or worry about content-type.
+        cache: false,
+        contentType: false,
+        processData: false
+      })
+    },
+    onclickcan () {
+      this.$router.push('/cases/basic')
+    },
     onclickfn () {
       this.disable = 1
       if (!this.comment) {
@@ -160,6 +225,7 @@ export default {
         }
       }).then((response) => {
         this.disable = 0
+        this.uploadAttach(this.$route.params.id)
         this.loadData()
       }).catch((error) => {
         this.disable = 0

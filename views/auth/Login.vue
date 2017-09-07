@@ -1,5 +1,5 @@
 <template>
-<div class="content has-text-centered">
+<div class="content">
   <h1 class="is-title is-bold">Login</h1>
 
   <div class="columns is-vcentered">

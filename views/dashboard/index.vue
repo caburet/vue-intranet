@@ -3,13 +3,13 @@
     <div class="tile is-ancestor"  v-if="personname===''">
     No estas logeado
     </div>
-    <div class="tile is-ancestor"  v-else>
+    <div class="tile is-ancestor"  v-if="personname!=''">
       <div class="tile is-parent">
 
         <article class="tile is-child box">
         <router-link to="/cases/basic">
           <p class="title">Abiertos</p>
-          <p class="subtitle">{{this.opencase}}</p>
+          <p class="subtitle">{{this.opencases}}</p>
           </router-link>
         </article>
 
@@ -28,46 +28,7 @@
         <article class='tile is-child box'>
           <h4 class='title'>Casos que necesitan atencion</h4>
           <div class='table-responsive'>
-          <table class='table'>
-            <thead>
-              <tr>
-                <th>Nro</th>
-                <th>Tipo</th>
-                <th>Asignado</th>
-                <th>Problema</th>
-                <th>Resumen</th>
-                <th>Estado</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-              </tr>
-            </thead>
-            <tfoot>
-              <tr>
-              <th>Nro</th>
-              <th>Tipo</th>
-              <th>Asignado</th>
-              <th>Problema</th>
-              <th>Resumen</th>
-              <th>Estado</th>
-              <th>Fecha</th>
-              <th>Hora</th>
-              </tr>
-            </tfoot>
-            <tbody>
-            <tr v-for='item in this.caseslist'>
-
-                <td>  <router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.SerNr}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.CaseTypeComment}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.Asignee}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.ProblemDesc}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.CaseComment}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.StatusName}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.TransDate}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.TransTime}}</router-link></td>
-
-              </tr>
-            </tbody>
-          </table>
+            <v-client-table :data="caseslist" :columns="columns" :options="options" @row-click="opencase"></v-client-table>
           </div>
         </article>
       </div>
@@ -79,41 +40,60 @@
 </template>
 
 <script>
-import store from './../../store'
-const { state } = store
-export default {
-  components: {
-  },
-  data () {
-    return {
-    }
-  },
-  computed: {
-    personname () {
-      return state.app.personname
+  import Vue from 'vue'
+  import {ServerTable, ClientTable, Event} from 'vue-tables-2';
+  import store from './../../store'
+  Vue.use(ClientTable, {
+    perPage: 25
+  })
+  const { state } = store
+  export default {
+    components: {
     },
-    opencase () {
-      return state.app.dash.opencase
+    props: ['client'],
+    data () {
+      return {
+        itemsperpage: 20,
+        paginate: ['cases'],
+        columns: ['SerNr', 'CaseTypeComment', 'Asignee', 'ProblemDesc', 'CaseComment', 'StatusName', 'TransDate', 'TransTime'],
+        options: {
+          sortable: ['SerNr', 'CaseTypeComment', 'Asignee', 'ProblemDesc', 'CaseComment', 'StatusName', 'TransDate', 'TransTime'],
+          headings: {
+            SerNr: 'Nro',
+            'CaseTypeComment': 'Tipo',
+            'Asignee': 'Asignado',
+            'ProblemDesc': 'Problema',
+            'CaseComment': 'Resumen',
+            'StatusName': 'Estado',
+            'TransDate': 'Fecha',
+            'TransTime': 'Hora'
+          }
+        }
+      }
     },
-    caseslist () {
-      return state.app.dash.dashcaseslist
+    methods: {
+      opencase(row) {
+        this.$router.push('/case/basic/'+row.row.SerNr);
+      }
     },
-    clientcase () {
-      return state.app.dash.clientcase
+    computed: {
+      personname () {
+        return state.app.personname
+      },
+      caseslist () {
+	if (state.app.clientstate){
+            return state.app.caseslist.caseslist.filter(function(x){return state.app.clientstate.split(",").indexOf(x.State) >= 0})
+	}
+	  else {
+	    return []
+	}
+      },
+      clientcase () {
+        return state.app.dash.clientcase
+      },
+      opencases () {
+        return state.app.dash.opencase
+      },
     }
-  },
-  stated: {},
-  methods: {
-    clickcase (index) {
-      console.log('VAAAA')
-      let a = 123
-      let url = 'cases/basic/' + a
-      console.log(url)
-      this.$router.push('/cases/basic/1234')
-    }
-  }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
