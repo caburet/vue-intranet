@@ -3,7 +3,7 @@
     <div class="tile is-ancestor"  v-if="personname===''">
     No estas logeado
     </div>
-    <div class="tile is-ancestor"  v-else>
+    <div class="tile is-ancestor"  v-if="personname!=''">
       <div class="tile is-parent">
 
         <article class="tile is-child box">
@@ -81,9 +81,12 @@
         return state.app.personname
       },
       caseslist () {
-
-          return state.app.caseslist.caseslist.filter(function(x){return state.app.clientstate.split(",").indexOf(x.State) >= 0})
-
+	if (state.app.clientstate){
+            return state.app.caseslist.caseslist.filter(function(x){return state.app.clientstate.split(",").indexOf(x.State) >= 0})
+	}
+	  else {
+	    return []
+	}
       },
       clientcase () {
         return state.app.dash.clientcase
