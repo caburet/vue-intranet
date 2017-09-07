@@ -68,6 +68,7 @@ const app = new Vue({
           dic.CaseTypeComment = obj.CaseTypeComment
           dic.Asignee = obj.Asignee
           dic.ProblemDesc = obj.ProblemDesc
+          dic.State = obj.State
           dic.CaseComment = obj.CaseComment
           dic.StatusName = obj.StatusName
           dic.TransDate = obj.TransDate

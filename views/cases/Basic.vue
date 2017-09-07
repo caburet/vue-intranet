@@ -6,7 +6,6 @@
     <div class="tile is-ancestor"  v-else>
       <div class='tile is-parent'>
         <article class='tile is-child box'>
-          <h4 class='title'>Table</h4>
           <div class='table-responsive'>
           <table class='table'>
             <thead>
@@ -50,8 +49,14 @@
         </article>
       </div>
     </div>
-
+    <pagination
+        :current="current"
+        :total="total"
+        :itemsPerPage="itemsPerPage"
+        :onChange="onChange">
+      </pagination>
   </div>
+
 </template>
 
 <style lang='scss'>
@@ -63,16 +68,21 @@
 }
 </style>
 <script>
-import Chart from 'vue-bulma-chartjs'
+import Pagination from './/../../../node_modules/vue-2-bulma-pagination/'
+// import Chart from 'vue-bulma-chartjs'
 import store from './../../store'
+let pagination = {
+  current: 1,       // Current page
+  total: 0,         // Items total count
+  itemsPerPage: 5   // Items per page
+}
 const { state } = store
 export default {
-  components: {
-    Chart
-  },
+  components: { Pagination },
   props: ['client'],
   data () {
     return {
+    pagination: pagination
     }
   },
   computed: {

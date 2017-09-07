@@ -18,6 +18,7 @@ const state = {
     type: '',
     subject: '',
     problemdesc: '',
+    state: '',
     caserow: [
     ]
   },
@@ -27,7 +28,7 @@ const state = {
   },
   sidebar: {
     opened: false,
-    hidden: false
+    hidden: true
   },
   effect: {
     translate3d: true
@@ -61,6 +62,7 @@ const mutations = {
         CaseTypeComment: data.CaseTypeComment,
         Asignee: data.Asignee,
         ProblemDesc: data.ProblemDesc,
+        State: data.State,
         CaseComment: data.CaseComment,
         StatusName: data.StatusName,
         TransDate: data.TransDate,
@@ -76,6 +78,12 @@ const mutations = {
 
 
     state.personname = data.personname
+    if (!data.personname){
+      state.sidebar.hidden = true
+    }
+    else {
+      state.sidebar.hidden = false
+    }
     state.casestypes = data.casestypes
     data = data.data
     state.dash.opencase = data.length
@@ -89,12 +97,13 @@ const mutations = {
           CaseComment = CaseComment.substring(0, 40) + '...'
         }
       }
-      if (casedata < 11 && data[casedata].State === 'CLIENTE') {
+      if ( data[casedata].State == 'CLIENTE') {
         state.dash.dashcaseslist.push(
           { SerNr: data[casedata].SerNr,
             CaseTypeComment: data[casedata].CaseTypeComment,
             Asignee: data[casedata].Asignee,
             ProblemDesc: data[casedata].ProblemDesc,
+            State: data[casedata].State,
             CaseComment: CaseComment,
             StatusName: data[casedata].StatusName,
             TransDate: data[casedata].TransDate.split('T')[0],
@@ -107,14 +116,12 @@ const mutations = {
           CaseTypeComment: data[casedata].CaseTypeComment,
           Asignee: data[casedata].Asignee,
           ProblemDesc: data[casedata].ProblemDesc,
+          State: data[casedata].State,
           CaseComment: CaseComment,
           StatusName: data[casedata].StatusName,
           TransDate: data[casedata].TransDate.split('T')[0],
           TransTime: data[casedata].TransTime
         })
-      if (data[casedata].State === 'CLIENTE') {
-      // state.dash.clientcase += 1
-      }
       console.log(state.dash.clientcase)
     }
     console.log('INIT DATA !!')
@@ -130,6 +137,7 @@ const mutations = {
     state.case.type = casedataparse.fields.Type
     state.case.subject = casedataparse.fields.Subject
     state.case.problemdesc = casedataparse.fields.ProblemDesc
+    state.case.state = casedataparse.fields.State
     state.case.caserow = []
     for (let r in casedata.data.records) {
       state.case.caserow.push(JSON.parse(casedata.data.records[r]))
