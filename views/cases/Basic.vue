@@ -6,46 +6,11 @@
     <div class="tile is-ancestor"  v-else>
       <div class='tile is-parent'>
         <article class='tile is-child box'>
+
           <div class='table-responsive'>
-          <table class='table'>
-            <thead>
-              <tr>
-                <th>Nro</th>
-                <th>Tipo</th>
-                <th>Asignado</th>
-                <th>Problema</th>
-                <th>Resumen</th>
-                <th>Estado</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-              </tr>
-            </thead>
-            <tfoot>
-              <tr>
-              <th>Nro</th>
-              <th>Tipo</th>
-              <th>Asignado</th>
-              <th>Problema</th>
-              <th>Resumen</th>
-              <th>Estado</th>
-              <th>Fecha</th>
-              <th>Hora{{client}}</th>
-              </tr>
-            </tfoot>
-            <tbody>
-            <tr v-for='item in this.caseslist' >
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.SerNr}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.CaseTypeComment}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.Asignee}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.ProblemDesc}}</router-link></td>
-                <td width="30%"><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.CaseComment}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.StatusName}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.TransDate}}</router-link></td>
-                <td><router-link :to="{ path : '/case/basic/' + item.SerNr}">{{item.TransTime}}</router-link></td>
-              </tr>
-            </tbody>
-          </table>
+            <v-client-table :data="caseslist" :columns="columns" :options="options" @row-click="opencase"></v-client-table>
           </div>
+
         </article>
       </div>
     </div>
@@ -63,13 +28,40 @@
 }
 </style>
 <script>
+import Vue from 'vue'
 import store from './../../store'
+import {ServerTable, ClientTable, Event} from 'vue-tables-2';
 const { state } = store
+Vue.use(ClientTable, {
+  perPage: 25
+})
 export default {
   components: {  },
   props: ['client'],
   data () {
-    return {}
+    return {
+      itemsperpage: 20,
+      paginate: ['cases'],
+      columns: ['SerNr', 'CaseTypeComment', 'Asignee', 'ProblemDesc', 'CaseComment', 'StatusName', 'TransDate', 'TransTime'],
+      options: {
+        sortable: ['SerNr', 'CaseTypeComment', 'Asignee', 'ProblemDesc', 'CaseComment', 'StatusName', 'TransDate', 'TransTime'],
+        headings: {
+          SerNr: 'Nro',
+          'CaseTypeComment': 'Tipo',
+          'Asignee': 'Asignado',
+          'ProblemDesc': 'Problema',
+          'CaseComment': 'Resumen',
+          'StatusName': 'Estado',
+          'TransDate': 'Fecha',
+          'TransTime': 'Hora'
+        }
+      }
+    }
+  },
+  methods: {
+    opencase(row) {
+      this.$router.push('/case/basic/'+row.row.SerNr);
+    }
   },
   computed: {
     personname () {
@@ -77,7 +69,8 @@ export default {
     },
     caseslist () {
       if (this.client) {
-        return state.app.caseslist.caseslist.filter(function (row) { return row.State === 'CLIENTE' })
+        return state.app.caseslist.caseslist.filter(function(x){return state.app.clientstate.split(",").indexOf(x.State) >= 0})
+        //return state.app.caseslist.caseslist.filter(function (row) { return row.State === 'CLIENTE' })
       } else {
         return state.app.caseslist.caseslist
       }
