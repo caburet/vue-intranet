@@ -143,7 +143,11 @@ const mutations = {
       state.case.caserow.push(JSON.parse(casedata.data.records[r]))
     }
     console.log(state.case)
-  }
+  },
+   [types.LOGIN] (state, data) {
+      console.log(data)
+      state.personname = data
+    }
 }
 
 export default {

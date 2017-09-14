@@ -11,3 +11,5 @@ export const ADD_CASE = 'ADD_CASE'
 export const INIT_DATA = 'INIT_DATA'
 
 export const REFRESH_CASE = 'REFRESH_CASE'
+
+export const LOGIN = 'LOGIN'

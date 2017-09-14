@@ -16,7 +16,7 @@
         </div>
         <div class="nav-right is-flex">
           <router-link v-if="!personname" to="/login" class="nav-item">Login</router-link>
-          <a v-if="personname" @click="logout" class="nav-item">{{personname}}</a>
+          <a v-if="personname" @click="logout" class="nav-item">{{personname}} LOGOUT</a>
         </div>
       </nav>
     </div>
@@ -26,6 +26,8 @@
 <script>
 import Tooltip from 'vue-bulma-tooltip'
 import { mapGetters, mapActions } from 'vuex'
+import {  LOGIN} from 'vuex-store/mutation-types'
+import store from './../../store'
 
 export default {
 
@@ -48,13 +50,23 @@ export default {
       'toggleSidebar'
     ]),
     logout () {
-      this.$auth.logout({
-        redirect: 'Home',
-        makeRequest: false
-        // params: {},
-        // success: function () {},
-        // error: function () {},
-        // etc...
+      this.$http({
+        method: 'GET',
+        url: '/oo/api/logout',
+        transformResponse: [(data) => {
+          return JSON.parse(data)
+        }],
+        params: {
+        }
+      }).then((response) => {
+        console.log(response)
+        store.commit(LOGIN, '')
+        this.$router.push('/login')
+
+      }).catch((error) => {
+        store.commit(LOGIN, '')
+        this.$router.push('/login')
+        console.log(error)
       })
     }
   }
