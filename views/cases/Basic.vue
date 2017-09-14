@@ -49,12 +49,7 @@
         </article>
       </div>
     </div>
-    <pagination
-        :current="current"
-        :total="total"
-        :itemsPerPage="itemsPerPage"
-        :onChange="onChange">
-      </pagination>
+
   </div>
 
 </template>
@@ -68,22 +63,13 @@
 }
 </style>
 <script>
-import Pagination from './/../../../node_modules/vue-2-bulma-pagination/'
-// import Chart from 'vue-bulma-chartjs'
 import store from './../../store'
-let pagination = {
-  current: 1,       // Current page
-  total: 0,         // Items total count
-  itemsPerPage: 5   // Items per page
-}
 const { state } = store
 export default {
-  components: { Pagination },
+  components: {  },
   props: ['client'],
   data () {
-    return {
-    pagination: pagination
-    }
+    return {}
   },
   computed: {
     personname () {
@@ -91,7 +77,7 @@ export default {
     },
     caseslist () {
       if (this.client) {
-        return state.app.caseslist.caseslist.filter(function (row) { return row.Asignee === 'CLIENTE' })
+        return state.app.caseslist.caseslist.filter(function (row) { return row.State === 'CLIENTE' })
       } else {
         return state.app.caseslist.caseslist
       }

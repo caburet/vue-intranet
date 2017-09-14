@@ -81,15 +81,16 @@
         return state.app.personname
       },
       caseslist () {
-	if (state.app.clientstate){
+	       if (state.app.clientstate){
             return state.app.caseslist.caseslist.filter(function(x){return state.app.clientstate.split(",").indexOf(x.State) >= 0})
-	}
-	  else {
-	    return []
-	}
+           }
+          else {
+            let clientstate = 'CLIENTE'
+            return state.app.caseslist.caseslist.filter(function(x){return clientstate.split(",").indexOf(x.State) >= 0})
+	         }
       },
       clientcase () {
-        return state.app.dash.clientcase
+        return this.caseslist.length
       },
       opencases () {
         return state.app.dash.opencase

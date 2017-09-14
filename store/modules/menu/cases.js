@@ -31,15 +31,6 @@ export default {
         link: 'createcase/Basic.vue'
       },
       component: lazyLoading('createcase/Basic')
-    },
-    {
-      name: 'Editar Password',
-      path: '/edit/password',
-      meta: {
-        label: 'Editar Password',
-        link: 'editperson/Basic.vue'
-      },
-      component: lazyLoading('createcase/Basic')
     }
 
   ]

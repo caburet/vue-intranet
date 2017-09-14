@@ -45,7 +45,7 @@ const state = {
         label: 'Editar Password',
         link: 'editperson/Basic.vue'
       },
-      component: lazyLoading('createcase/Basic')
+      component: lazyLoading('editperson/Basic')
     }
 
     // {
