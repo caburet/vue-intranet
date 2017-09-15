@@ -1,64 +1,84 @@
 <template>
   <div>
-    <div class="tile is-ancestor"  v-if="personname===''">
-    No estas logeado
-    </div>
-    <div class="tile is-ancestor"  v-else>
-    <div class='tile is-parent'>
-      <article class='tile is-child box'>
-        <h1 class='title'>Formulario Para la Creacion de Casos</h1>
-        <div class='block'>
-          <div class='control is-horizontal'>
-            <div class='control-label'>
-              <label class='label'>Titulo</label>
-            </div>
-            <div class='control is-grouped'>
-              <p class='control is-expanded'>
-                <input class='input' type='text' v-model='tittle' placeholder='Titulo'>
-              </p>
-              <p class='control is-expanded'>
-                <input class='input' type='text' v-model='who'  placeholder='¿Quien lo Solicita?'>
-              </p>
-            </div>
-          </div>
-          <div class='control is-horizontal'>
-            <div class='control-label'>
-              <label class='label'>Tipo de Caso</label>
-            </div>
-            <div class='control'>
-              <div class='select is-fullwidth'>
-                <select v-model='type' >
-                 <option v-for='casetype in casestypes' :value='casetype.Code'>{{ casetype.Comment }}</option>
-                </select>
+     <div class="tile is-ancestor"  v-if="personname===''">
+        No estas logeado
+     </div>
+     <div class="tile is-ancestor"  v-else>
+        <div class='tile is-parent'>
+           <article class='tile is-child box'>
+              <h1 class='title'>Formulario Para la Creacion de Casos</h1>
+              <div class='block'>
+                 <div class='control is-horizontal'>
+                    <div class='control-label'>
+                       <label class='label'>Titulo</label>
+                    </div>
+                    <div class='control is-grouped'>
+                       <p class='control is-expanded'>
+                          <input class='input' type='text' v-model='tittle' placeholder='Titulo'>
+                       </p>
+                       <p class='control is-expanded'>
+                          <input class='input' type='text' v-model='who'  placeholder='¿Quien lo Solicita?'>
+                       </p>
+                    </div>
+                 </div>
+                 <div class='control is-horizontal'>
+                    <div class='control-label'>
+                       <label class='label'>Tipo de Caso</label>
+                    </div>
+                    <div class='control'>
+                       <div class='select is-fullwidth'>
+                          <select v-model='type' >
+                             <option v-for='casetype in casestypes' :value='casetype.Code'>{{ casetype.Comment }}</option>
+                          </select>
+                       </div>
+                    </div>
+                 </div>
+                 <div class='control is-horizontal'>
+                    <div class='control-label'>
+                       <label class='label'>Descripcion</label>
+                    </div>
+                    <div class='control is-grouped' >
+                       <p class='control is-expanded'>
+                          <textarea v-model='comment' class='textarea' placeholder='Comente aquí su consulta.' style="width: 500px;"></textarea>
+                       </p>
+                       <table>
+                          <tr>
+                             <td>
+                                <form id = 'attachform' enctype="multipart/form-data"  class='control is-expanded'>
+                                   <input id= 'myfile1' name ="myfile1" class='input' type='file' multiple style="width: 300px;">
+                                </form>
+                             </td>
+                          </tr>
+                          <tr>
+                             <td>
+                                <form id = 'attachform' enctype="multipart/form-data"  class='control is-expanded'>
+                                   <input id= 'myfile2' name ="myfile2" class='input' type='file' multiple style="width: 300px;">
+                                </form>
+                             </td>
+                          </tr>
+                          <tr>
+                             <td>
+                                <form id = 'attachform' enctype="multipart/form-data"  class='control is-expanded'>
+                                   <input id= 'myfile3' name ="myfile3" class='input' type='file' multiple style="width: 300px;">
+                                </form>
+                             </td>
+                          </tr>
+                       </table>
+                    </div>
+                 </div>
+                 <div class='control is-horizontal'>
+                    <div class='control-label'>
+                       <label class='label'></label>
+                    </div>
+                    <div class='control'>
+                       <button class='button is-primary' v-on:click='onclickfn()' :disabled='disablebutton == 1 ? true : false'>Enviar</button>
+                       <button class='button is-link' v-on:click='onclickcan()'>Cancel</button>
+                    </div>
+                 </div>
               </div>
-            </div>
-          </div>
-          <div class='control is-horizontal'>
-            <div class='control-label'>
-              <label class='label'>Descripcion</label>
-            </div>
-            <div class='control is-grouped' >
-              <p class='control is-expanded'>
-                <textarea v-model='comment' class='textarea' placeholder='Comente aquí su consulta.'></textarea>
-              </p>
-              <form id = 'attachform' enctype="multipart/form-data"  class='control is-expanded'>
-                <input id= 'myfile' name ="myfile" class='input' type='file' multiple>
-              </form>
-            </div>
-          </div>
-          <div class='control is-horizontal'>
-            <div class='control-label'>
-              <label class='label'></label>
-            </div>
-            <div class='control'>
-              <button class='button is-primary' v-on:click='onclickfn()' :disabled='disablebutton == 1 ? true : false'>Enviar</button>
-              <button class='button is-link' v-on:click='onclickcan()'>Cancel</button>
-            </div>
-          </div>
+           </article>
         </div>
-      </article>
-    </div>
-    </div>
+     </div>
   </div>
 </template>
 <script>
@@ -116,8 +136,8 @@ export default {
     {
       console.log(e)
     },
-    uploadAttach (sernr){
-      if ($('#myfile')[0].files.length==0)
+    uploadAttach (sernr,id){
+      if ($('#myfile'+id)[0].files.length==0)
       {
         return false
       }
@@ -126,7 +146,7 @@ export default {
       additional_data['OriginId'] = sernr
       var id = 'attachform'
       var formData = new FormData($.find('#' + id))
-      $.each($('#myfile')[0].files, function(i, file) {
+      $.each($('#myfile'+id)[0].files, function(i, file) {
           formData.append('file-'+i, file);
       });
       if (!additional_data) additional_data = {}
@@ -197,7 +217,9 @@ export default {
         this.who = ''
         this.type = ''
         this.comment = ''
-        this.uploadAttach(response.data.sernr)
+        this.uploadAttach(response.data.sernr,1)
+        this.uploadAttach(response.data.sernr,2)
+        this.uploadAttach(response.data.sernr,3)
         this.$http({
           url: '/intranet/api/datafetch',
           transformResponse: [(data) => {

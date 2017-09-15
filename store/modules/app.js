@@ -2,6 +2,7 @@ import * as types from '../mutation-types'
 
 const state = {
   casestypes:{},
+  clientstate:[],
   caseslist: {
     caseslist: [
     ]
@@ -76,7 +77,7 @@ const mutations = {
     console.log(data);
 
 
-
+    state.clientstate = data.clientstate
     state.personname = data.personname
     if (!data.personname){
       state.sidebar.hidden = true
