@@ -78,7 +78,7 @@ const app = new Vue({
           dic.State = obj.State
           data.push(dic)
         }
-        store.commit(INIT_DATA, {data: data, casestypes: response.data.casetype, personname: response.data.personname, clientstate:response.data.clientstate})
+        store.commit(INIT_DATA, {data: data, casestypes: response.data.casetype, personname: response.data.personname, clientstate:response.data.clientstate, inews:response.data.inews})
       }).catch((error) => {
         this.$router.push('/login')
       })

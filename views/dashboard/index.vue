@@ -23,6 +23,20 @@
         </article>
       </div>
     </div>
+    <div class="tile is-ancestor"  v-if="personname!=''">
+      <div class="tile is-parent">
+
+        <article class="tile is-child box">
+          <p class="title" v-html="firstnew.title">
+          </p>
+          <div class="content">
+            <p v-html="firstnew.text">
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </div>
     <div class='tile is-ancestor' v-if="this.caseslist.length>0">
       <div class='tile is-parent'>
         <article class='tile is-child box'>
@@ -79,6 +93,9 @@
     computed: {
       personname () {
         return state.app.personname
+      },
+      firstnew () {
+        return state.app.news[0]
       },
       caseslist () {
 	       if (state.app.clientstate){

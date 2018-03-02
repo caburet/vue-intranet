@@ -39,6 +39,16 @@ const state = {
       component: lazyLoading('createcase/Basic')
     },
     {
+      name: 'Listado de Noticias',
+      path: '/news/basic',
+      meta: {
+        label: 'Listado de Noticias',
+        link: 'news/Basic.vue'
+      },
+      component: lazyLoading('news/Basic'),
+      props: dynamicPropsFn
+    },
+    {
       name: 'Editar Password',
       path: '/edit/password',
       meta: {

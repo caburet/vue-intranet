@@ -30,6 +30,15 @@ export default new Router({
       component: require('../views/case/Basic')
     },
     {
+      name: 'Ver Noticia',
+      path: '/new/basic/:id',
+      meta: {
+        label: 'Ver Noticia',
+        link: 'new/Basic.vue'
+      },
+      component: require('../views/new/Basic')
+    },
+    {
       path: '*',
       redirect: '/'
     }

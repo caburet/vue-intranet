@@ -7,6 +7,7 @@ const state = {
     caseslist: [
     ]
   },
+  news:[],
   dash: {
     dashcaseslist: [
     ],
@@ -74,9 +75,6 @@ const mutations = {
     state.case.client = data.tittle
   },
   [types.INIT_DATA] (state, data) {
-    console.log(data);
-
-
     state.clientstate = data.clientstate
     state.personname = data.personname
     if (!data.personname){
@@ -86,9 +84,17 @@ const mutations = {
       state.sidebar.hidden = false
     }
     state.casestypes = data.casestypes
+    for (let inew of data.inews)
+    {
+        inew = JSON.parse(inew)
+        state.news.push({
+          title:inew.fields.NewsTitle,
+          text:inew.fields.NewsText
+        })
+    }
     data = data.data
     state.dash.opencase = data.length
-    console.log(state.dash.opencase)
+
     var casedata = ''
     for (casedata in data) {
       // console.log(data[casedata])
